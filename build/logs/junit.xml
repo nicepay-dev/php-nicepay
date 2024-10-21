@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="" tests="18" assertions="32" errors="0" warnings="0" failures="0" skipped="0" time="43.169571">
+    <testsuite name="Application Test Suite" tests="18" assertions="32" errors="0" warnings="0" failures="0" skipped="0" time="43.169571">
+      <testsuite name="test\NicepayHelperTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHelperTest.php" tests="5" assertions="11" errors="0" warnings="0" failures="0" skipped="0" time="0.019161">
+        <testcase name="testAbleToStartTest" class="test\NicepayHelperTest" classname="test.NicepayHelperTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHelperTest.php" line="25" assertions="1" time="0.010069"/>
+        <testcase name="testAbleToSignDataWithStringPrivateKey" class="test\NicepayHelperTest" classname="test.NicepayHelperTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHelperTest.php" line="30" assertions="2" time="0.008360"/>
+        <testcase name="testAbleToGenerateHmacSha512ForPayload" class="test\NicepayHelperTest" classname="test.NicepayHelperTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHelperTest.php" line="38" assertions="2" time="0.000274"/>
+        <testcase name="testAbleToCreateHashAndSignatureBase64" class="test\NicepayHelperTest" classname="test.NicepayHelperTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHelperTest.php" line="51" assertions="4" time="0.000202"/>
+        <testcase name="testAbleToGetTimeNowWithSnapFormat" class="test\NicepayHelperTest" classname="test.NicepayHelperTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHelperTest.php" line="65" assertions="2" time="0.000256"/>
+      </testsuite>
+      <testsuite name="test\NicepayHttpRequestsTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHttpRequestsTest.php" tests="5" assertions="7" errors="0" warnings="0" failures="0" skipped="0" time="15.181902">
+        <testcase name="testStart" class="test\NicepayHttpRequestsTest" classname="test.NicepayHttpRequestsTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHttpRequestsTest.php" line="34" assertions="1" time="0.002543">
+          <system-out>able to start test
+</system-out>
+        </testcase>
+        <testcase name="testHttpRequest" class="test\NicepayHttpRequestsTest" classname="test.NicepayHttpRequestsTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHttpRequestsTest.php" line="40" assertions="2" time="0.108533">
+          <system-out>able to http request
+</system-out>
+        </testcase>
+        <testcase name="testHttpRequestWithString" class="test\NicepayHttpRequestsTest" classname="test.NicepayHttpRequestsTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHttpRequestsTest.php" line="57" assertions="2" time="0.061383">
+          <system-out>able to http request with string
+Test passed.
+</system-out>
+        </testcase>
+        <testcase name="testTimeout" class="test\NicepayHttpRequestsTest" classname="test.NicepayHttpRequestsTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHttpRequestsTest.php" line="78" assertions="1" time="15.007642">
+          <system-out>should timeout after 15 seconds
+Test passed.
+</system-out>
+        </testcase>
+        <testcase name="testErrorNotFromRequest" class="test\NicepayHttpRequestsTest" classname="test.NicepayHttpRequestsTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayHttpRequestsTest.php" line="103" assertions="1" time="0.001801">
+          <system-out>able to get error not from request
+Test passed.
+</system-out>
+        </testcase>
+      </testsuite>
+      <testsuite name="NicepayInquiryStatusTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayInquiryStatusTest.php" tests="2" assertions="3" errors="0" warnings="0" failures="0" skipped="0" time="0.288774">
+        <testcase name="testInquiryStatusVASnap" class="NicepayInquiryStatusTest" classname="NicepayInquiryStatusTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayInquiryStatusTest.php" line="31" assertions="2" time="0.240232"/>
+        <testcase name="testInquiryStatusVAV2" class="NicepayInquiryStatusTest" classname="NicepayInquiryStatusTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayInquiryStatusTest.php" line="70" assertions="1" time="0.048542"/>
+      </testsuite>
+      <testsuite name="NicepaySnapTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepaySnapTest.php" tests="2" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.372042">
+        <testcase name="testRequestSnapAccessToken" class="NicepaySnapTest" classname="NicepaySnapTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepaySnapTest.php" line="27" assertions="2" time="0.038993"/>
+        <testcase name="testRequestSnapTransaction" class="NicepaySnapTest" classname="NicepaySnapTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepaySnapTest.php" line="66" assertions="2" time="0.333049"/>
+      </testsuite>
+      <testsuite name="NicepayVirtualAccountTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayVirtualAccountTest.php" tests="4" assertions="7" errors="0" warnings="0" failures="0" skipped="0" time="27.307692">
+        <testcase name="testGenerateVASnap" class="NicepayVirtualAccountTest" classname="NicepayVirtualAccountTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayVirtualAccountTest.php" line="33" assertions="2" time="0.222391"/>
+        <testcase name="testGenerateVAV2" class="NicepayVirtualAccountTest" classname="NicepayVirtualAccountTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayVirtualAccountTest.php" line="76" assertions="2" time="0.514536"/>
+        <testcase name="testGenerateVAWithRetry" class="NicepayVirtualAccountTest" classname="NicepayVirtualAccountTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayVirtualAccountTest.php" line="124" assertions="2" time="11.225283"/>
+        <testcase name="testRetryWith504Response" class="NicepayVirtualAccountTest" classname="NicepayVirtualAccountTest" file="C:\Users\Inka Fazarillah\Documents\repos\nicepay-php-native\test\NicepayVirtualAccountTest.php" line="200" assertions="1" time="15.345481"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>
