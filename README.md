@@ -170,6 +170,7 @@ $timestamp = Helper::getFormattedTimestampV2();
 Integration test are available
 
 - [Virtual Account Sample Functional Test](test/NicepayVirtualAccountTest.php)
+- [Inquiry Status Sample Functional Test](test/NicepayInquiryStatusTest.php)
 
 ## Get help
 
