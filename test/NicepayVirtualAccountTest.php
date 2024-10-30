@@ -61,10 +61,10 @@ class NicepayVirtualAccountTest extends TestCase
 
 
         $accessToken = self::getAccessToken($config);
-        $snapVAService = new SnapVAService();
+        $snapVAService = new SnapVAService($config);
 
         try {
-        $response = $snapVAService->generateVA($parameter, $accessToken, $config);
+        $response = $snapVAService->generateVA($parameter, $accessToken);
             $this->assertEquals("2002700", $response->getResponseCode());
             $this->assertEquals("Successful", $response->getResponseMessage());
             // Add more assertions as needed for specific response properties

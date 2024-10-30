@@ -29,6 +29,19 @@ class NicepayResponse {
     private  $vacctValidTm;
     private  $vacctValidDt;
 
+    // E-wallet
+
+    private $partnerReferenceNo;
+    private $referenceNo;
+    private $webRedirectUrl;
+
+    // Inquiry Ewallet 
+
+    private $originalPartnerReferenceNo;
+    private $originalReferenceNo;
+    private $serviceCode;
+    private array $transAmount;
+
     private function __construct(NicepayResponseBuilder $builder) {
         
         $this->responseCode = $builder->getResponseCode();
@@ -55,6 +68,18 @@ class NicepayResponse {
         $this->goodsNm = $builder->getGoodsNm();
         $this->vacctValidTm = $builder->getVacctValidTm();
         $this->vacctValidDt = $builder->getVacctValidDt();
+
+        // Ewallet
+        $this -> partnerReferenceNo = $builder->getPartnerReferenceNo();
+        $this -> referenceNo = $builder->getReferenceNo();
+        $this -> webRedirectUrl = $builder->getWebRedirectUrl();
+
+        // Inquiry Ewallet
+        $this -> originalPartnerReferenceNo = $builder->getOriginalPartnerReferenceNo();
+        $this -> originalReferenceNo = $builder->getOriginalReferenceNo();
+        $this -> serviceCode = $builder->getServiceCode();
+        $this -> transAmount = $builder->getTransAmount();
+    
     }
 
     public static function fromArray(array $data): self {
@@ -79,9 +104,15 @@ class NicepayResponse {
             ->setTXidVA($data['tXidVA'] ?? null)
             ->setGoodsNm($data['goodsNm'] ?? null)
             ->setVacctValidTm($data['vacctValidTm'] ?? null)
-            ->setVacctValidDt($data['vacctValidDt'] ?? null);
+            ->setVacctValidDt($data['vacctValidDt'] ?? null)
+            ->setPartnerReferenceno($data['partnerReferenceNo'] ?? null)
+            ->setReferenceNo($data['referenceNo'] ?? null)
+            ->setWebRedirectUrl($data['webRedirectUrl'] ?? null)
+            ->setOriginalPartnerReferenceNo($data['originalPartnerReferenceNo'] ?? null)
+            ->setOriginalReferenceNo($data['originalReferenceNo']  ?? null)
+            ->setServiceCode($data['serviceCode']  ?? null)
+            ->setTransAmount($data['transAmount']  ?? []);
 
-        // Return the constructed NicepayResponse using the builder
         return new self($builder);
     }
 
@@ -117,6 +148,33 @@ class NicepayResponse {
 
     public function getTotalAmount(): array {
         return $this->totalAmount;
+    }
+
+    public function getPartnerReferenceNo() {
+        return $this->partnerReferenceNo;
+    }
+
+    public function getReferenceNo() {
+        return $this->referenceNo;
+    }
+
+    public function getWebRedirectUrl() {
+        return $this->webRedirectUrl;
+    }
+
+    public function getOriginalPartnerReferenceNo() {
+        return $this->originalPartnerReferenceNo;
+    }
+
+    public function getOriginalReferenceNo() {
+        return $this->originalReferenceNo;
+    }
+    public function getServiceCode() {
+        return $this->serviceCode;
+    }
+
+    public function getTransAmount() {
+        return $this->transAmount;
     }
 
     // Virtual Account Getters
@@ -202,6 +260,17 @@ class NicepayResponseBuilder {
     private  $goodsNm;
     private  $vacctValidTm;
     private  $vacctValidDt;
+
+    // Ewallet 
+    private $partnerReferenceNo;
+    private $referenceNo;
+    private $webRedirectUrl;
+
+    // Inquiry Status Ewallet
+    private $originalPartnerReferenceNo;
+    private $originalReferenceNo;
+    private $serviceCode;
+    private array $transAmount = [];
 
     // Setters
 
@@ -312,6 +381,41 @@ class NicepayResponseBuilder {
         return $this;
     }
 
+    public function setPartnerReferenceNo($partnerReferenceNo) : NicepayResponseBuilder {
+        $this -> partnerReferenceNo = $partnerReferenceNo;
+        return $this;
+    }
+
+    public function setReferenceNo($referenceNo) : NicepayResponseBuilder {
+        $this -> referenceNo = $referenceNo;
+        return $this;
+    }
+
+    public function setWebRedirectUrl( $webRedirectUrl) : NicepayResponseBuilder {
+        $this -> webRedirectUrl = $webRedirectUrl;
+        return $this;
+    }
+
+    public function setOriginalPartnerReferenceNo( $originalPartnerReferenceNo) : NicepayResponseBuilder {
+        $this -> originalPartnerReferenceNo = $originalPartnerReferenceNo;
+        return $this;
+    }
+
+    public function setOriginalReferenceNo( $originalReferenceNo) : NicepayResponseBuilder {
+        $this -> originalReferenceNo = $originalReferenceNo;
+        return $this;
+    }
+
+    public function setServiceCode( $serviceCode) : NicepayResponseBuilder {
+        $this -> serviceCode = $serviceCode;
+        return $this;
+    }
+
+    public function setTransAmount( $transAmount) : NicepayResponseBuilder {
+        $this -> transAmount = $transAmount;
+        return $this;
+    }
+
     // Getters 
 
     public function getResponseCode()  {
@@ -397,6 +501,34 @@ class NicepayResponseBuilder {
 
     public function getVacctValidDt()  {
         return $this->vacctValidDt;
+    }
+
+    public function getPartnerReferenceNo() {
+        return $this->partnerReferenceNo;
+    }
+
+    public function getReferenceNo() {
+        return $this->referenceNo;
+    }
+
+    public function getWebRedirectUrl() {
+        return $this->webRedirectUrl;
+    }
+
+    public function getOriginalPartnerReferenceNo() {
+        return $this->originalPartnerReferenceNo;
+    }
+
+    public function getOriginalReferenceNo() {
+        return $this->originalReferenceNo;
+    }
+
+    public function getServiceCode() {
+        return $this->serviceCode;
+    }
+
+    public function getTransAmount() {
+        return $this->transAmount;
     }
 
     // Build method

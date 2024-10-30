@@ -5,24 +5,41 @@ namespace Nicepay\Data\Model;
 class InquiryStatus
 {
     // SNAP 
+
+    // VA
     private $partnerServiceId;
     private $customerNo;
     private $virtualAccountNo;
     private $inquiryRequestId;
-    private array $additionalInfo; // totalAmount, tXidVA, trxId
+    private $additionalInfo; // totalAmount, tXidVA, trxId
+
+    // EWALLET
+
+    private $merchantId;
+    private $subMerchantId;
+    private $originalPartnerReferenceNo;
+    private $originalReferenceNo;
+
+    private $serviceCode;
+    private $transactionDate;
+    private $externalStoreId;
+    private array $amount;
+
 
     // V2
     private $iMid;
-    private $timeStamp ;
+    private $timeStamp;
     private $tXid;
     private $merchantToken;
     private $referenceNo;
     private $amt;
 
-    public function getMerchantToken (){
+    public function getMerchantToken()
+    {
         return $this->merchantToken;
     }
-    public function setMerchantToken($merchantToken){
+    public function setMerchantToken($merchantToken)
+    {
         $this->merchantToken = $merchantToken;
     }
 
@@ -42,6 +59,15 @@ class InquiryStatus
         $this->amt = $builder->getAmt();
         $this->iMid = $builder->getImid();
 
+        // ewallet 
+        $this->merchantId = $builder->getMerchantId();
+        $this->subMerchantId = $builder->getSubMerchantId();
+        $this->originalPartnerReferenceNo = $builder->getOriginalPartnerReferenceNo();
+        $this->originalReferenceNo = $builder->getOriginalReferenceNo();
+        $this->serviceCode = $builder->getServiceCode();
+        $this->transactionDate = $builder->getTransactionDate();
+        $this->externalStoreId = $builder->getExternalStoreId();
+        $this->amount = $builder->getAmount();
     }
 
     public static function builder(): InquiryStatusBuilder
@@ -56,11 +82,20 @@ class InquiryStatus
             'customerNo' => $this->customerNo,
             'virtualAccountNo' => $this->virtualAccountNo,
             'inquiryRequestId' => $this->inquiryRequestId,
-            'additionalInfo' => $this->additionalInfo,
+            'additionalInfo' => empty($this->additionalInfo) ? (object) [] : $this->additionalInfo,
+            'merchantId' => $this->merchantId,
+            'subMerchantId' => $this->subMerchantId,
+            'originalPartnerReferenceNo' => $this->originalPartnerReferenceNo,
+            'originalReferenceNo' => $this->originalReferenceNo,
+            'serviceCode' => $this->serviceCode,
+            'transactionDate' => $this->transactionDate,
+            'externalStoreId' => $this->externalStoreId,
+            'amount' => $this->amount,
         ];
     }
 
-    public function toArrayV2(): array {
+    public function toArrayV2(): array
+    {
         return [
             'timeStamp' => $this->timeStamp,
             'tXid' => $this->tXid,
@@ -76,14 +111,26 @@ class InquiryStatus
 class InquiryStatusBuilder
 {
 
+    // SNAP
     private $partnerServiceId;
     private $customerNo;
     private $virtualAccountNo;
     private $inquiryRequestId;
-    private array $additionalInfo = [];
+    private $additionalInfo;
 
+    // EWALLET
+    private $merchantId;
+    private $subMerchantId;
+    private $originalPartnerReferenceNo;
+    private $originalReferenceNo;
+    private $serviceCode;
+    private $transactionDate;
+    private $externalStoreId;
+    private array $amount = [];
 
-    private $timeStamp ;
+    //  V2
+
+    private $timeStamp;
     private $txId;
     private $merchantToken;
     private $referenceNo;
@@ -119,27 +166,71 @@ class InquiryStatusBuilder
     }
 
 
-    public function getTimeStamp(){
+    public function getTimeStamp()
+    {
         return $this->timeStamp;
     }
 
-    public function getTxId(){
+    public function getTxId()
+    {
         return $this->txId;
     }
-    public function getMerchantToken(){
+    public function getMerchantToken()
+    {
         return $this->merchantToken;
     }
 
-    public function getReferenceNo(){
+    public function getReferenceNo()
+    {
         return $this->referenceNo;
     }
 
-    public function getAmt(){
+    public function getAmt()
+    {
         return $this->amt;
     }
 
-    public function getIMid(){
+    public function getIMid()
+    {
         return $this->iMid;
+    }
+
+    public function getMerchantId()
+    {
+        return $this->merchantId;
+    }
+
+    public function getSubMerchantId()
+    {
+        return $this->subMerchantId;
+    }
+
+    public function getOriginalPartnerReferenceNo()
+    {
+        return $this->originalPartnerReferenceNo;
+    }
+
+    public function getOriginalReferenceNo(){
+        return $this->originalReferenceNo;
+    }
+
+    public function getServiceCode()
+    {
+        return $this->serviceCode;
+    }
+
+    public function getTransactionDate()
+    {
+        return $this->transactionDate;
+    }
+    public function getExternalStoreId()
+    {
+        return $this->externalStoreId;
+    }
+
+    public function getAmount()
+    {
+        return $this->amount;
     }
 
 
@@ -172,7 +263,7 @@ class InquiryStatusBuilder
     public function setTotalAmount($value, $currency): InquiryStatusBuilder
     {
         $this->additionalInfo["totalAmount"] = [
-            "value"=> $value,
+            "value" => $value,
             "currency" => $currency,
         ];
         return $this;
@@ -191,34 +282,89 @@ class InquiryStatusBuilder
     }
 
 
-    public function setTimeStamp($timeStamp): InquiryStatusBuilder{
+    public function setTimeStamp($timeStamp): InquiryStatusBuilder
+    {
         $this->timeStamp = $timeStamp;
         return $this;
     }
 
-    public function setTxId($txId) : InquiryStatusBuilder {
+    public function setTxId($txId): InquiryStatusBuilder
+    {
         $this->txId = $txId;
         return $this;
     }
 
-    public function setMerchantToken($timeStamp, $iMid, $reffNo, $amount, $merchantKey): InquiryStatusBuilder{
+    public function setMerchantToken($timeStamp, $iMid, $reffNo, $amount, $merchantKey): InquiryStatusBuilder
+    {
 
-        $this->merchantToken = $timeStamp. $iMid. $reffNo. $amount. $merchantKey;
+        $this->merchantToken = $timeStamp . $iMid . $reffNo . $amount . $merchantKey;
         return $this;
     }
 
-    public function setReferenceNo($reffNo) : InquiryStatusBuilder {
+    public function setReferenceNo($reffNo): InquiryStatusBuilder
+    {
         $this->referenceNo = $reffNo;
         return $this;
     }
 
-    public function setAmt($amt) : InquiryStatusBuilder {
+    public function setAmt($amt): InquiryStatusBuilder
+    {
         $this->amt = $amt;
         return $this;
     }
 
-    public function setIMid($iMid) : InquiryStatusBuilder {
+    public function setIMid($iMid): InquiryStatusBuilder
+    {
         $this->iMid = $iMid;
+        return $this;
+    }
+
+    public function setMerchantId($merchantId): InquiryStatusBuilder {
+        $this -> merchantId = $merchantId;
+        return $this;
+    }
+
+    public function setSubMerchantId($subMerchantId) {
+        $this -> subMerchantId = $subMerchantId;
+        return $this;
+    }
+
+    public function setOriginalPartnerReferenceNo($originalPartnerReferenceNo) {
+        $this -> originalPartnerReferenceNo = $originalPartnerReferenceNo;
+        return $this;
+    }
+
+    public function setOriginalReferenceNo($originalReferenceNo) {
+        $this -> originalReferenceNo = $originalReferenceNo;
+        return $this;
+    }
+
+    public function setServiceCode($serviceCode) {
+        $this ->serviceCode = $serviceCode;
+        return $this;
+    }
+
+    public function setTransactionDate($transactionDate) {
+        $this ->transactionDate = $transactionDate;
+        return $this;
+    }
+
+    public function setExternalStoreId($externalStoreId){
+        $this ->externalStoreId = $externalStoreId;
+        return $this;
+    }
+
+    public function setAmount($value, $currency){
+        $amount = [
+            "value" => $value,
+            "currency" => $currency,
+        ];
+        $this->amount = $amount;
+        return $this;
+    }
+
+    public function setAdditionalInfo($additionalInfo){
+        $this ->additionalInfo = $additionalInfo;
         return $this;
     }
 

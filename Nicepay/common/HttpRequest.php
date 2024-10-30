@@ -85,7 +85,8 @@ class HttpRequest
                 throw new NicepayError("Failed to parse response as JSON with message: " . json_last_error_msg() . "\nResponse: " . $response);
             }
     
-            throw new NicepayError("HTTP Error $httpCode: " . print_r($responseBody, true));
+            return $responseBody;
+            // throw new NicepayError("HTTP Error $httpCode: " . print_r($responseBody, true));
         } while ($isRetryFlag && $attempt < $retryLimit);  // Ensure retry limit is correctly checked
     
         // If all retries are exhausted or no response is received

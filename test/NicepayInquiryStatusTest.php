@@ -10,7 +10,7 @@ use Nicepay\Data\Model\InquiryStatus;
 use Nicepay\common\NicepayError;
 use Nicepay\data\model\AccessToken;
 use Nicepay\service\snap\Snap;
-
+use Nicepay\service\snap\SnapEwalletService;
 
 class NicepayInquiryStatusTest extends TestCase
 {
@@ -52,10 +52,10 @@ class NicepayInquiryStatusTest extends TestCase
             ->build();
 
             $accessToken = self::getAccessToken($config);
-            $snapVAService = new SnapVAService();
+            $snapVAService = new SnapVAService($config);
 
             try {
-            $response = $snapVAService->inquiryStatus($parameter, $accessToken, $config);
+            $response = $snapVAService->inquiryStatus($parameter, $accessToken);
             } catch (NicepayError $e) {
                 $this->fail("Test Failed : " . $e->getMessage());
             }
@@ -121,5 +121,48 @@ class NicepayInquiryStatusTest extends TestCase
 
         return $response->getAccessToken();
 
+    }
+
+
+    //  EWALLET SNAP 
+
+    public function testInquiryStatusEwalletSnap() {
+
+        $timestamp = Helper::getFormattedDate();
+        $config = NICEPay::builder()
+            ->setIsProduction(false)
+            ->setPrivateKey($this->oldKeyFormat)
+            ->setClientSecret($this->clientSecret)
+            ->setPartnerId($this -> iMidTest)
+            ->setExternalID("extIDEwallet" . $timestamp)
+            ->setTimestamp($timestamp)
+            ->build();
+
+        $accessToken = self::getAccessToken($config);
+        $requestBody = InquiryStatus::builder()
+        ->setMerchantId(TestConst::$IMID_TEST)
+        ->setSubMerchantId("23489182303312")
+        ->setOriginalPartnerReferenceNo("ref202305081205331683522921")
+        ->setOriginalReferenceNO("IONPAYTEST05202408221416277395")
+        ->setServiceCode(54)
+        ->setTransactionDate($timestamp)
+        ->setExternalStoreId("239840198240795109")
+        ->setAmount("1.00", "IDR")
+        ->setAdditionalInfo([])
+        ->build();
+
+        $snapEwalletService = new SnapEwalletService($config);
+
+        try {
+            $response = $snapEwalletService->inquiryStatus($requestBody, $accessToken);
+            
+            // var_dump($response);
+
+            
+            $this -> assertEquals("2005500", $response -> getResponseCode() );
+            $this -> assertEquals("Successful", $response -> getResponseMessage() );
+        } catch (Exception $e) {
+            $this->fail("Inquiry Status Snap Ewallet failed. error thrown : ". $e->getMessage());
+        }
     }
 }

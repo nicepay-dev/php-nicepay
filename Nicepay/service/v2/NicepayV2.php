@@ -24,7 +24,6 @@ class NicepayV2 {
         // generate merchantToken 
         $parameter -> setMerchantToken(Helper::generateMerchantToken($parameter->getMerchantToken()));
 
-
         $jsonData = json_encode($parameter->toArrayV2());
 
         $url = $this->apiConfig->getNicepayBaseUrl() . $endPoint;
