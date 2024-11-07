@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace Nicepay\data\model;
 
-class Ewallet {
+class Ewallet
+{
 
     private $partnerReferenceNo;
     private $merchantId;
@@ -12,13 +13,14 @@ class Ewallet {
     private $pointOfInitiation;
     private array $amount;
     private array $additionalInfo;
-    private array $urlParam ;
+    private array $urlParam;
 
 
     // Constructor
 
-    public function __construct(EwalletBuilder $builder){
-        
+    public function __construct(EwalletBuilder $builder)
+    {
+
         $this->partnerReferenceNo = $builder->getPartnerReferenceNo();
         $this->merchantId = $builder->getMerchantId();
         $this->subMerchantId = $builder->getSubMerchantId();
@@ -28,68 +30,78 @@ class Ewallet {
         $this->amount = $builder->getAmount();
         $this->additionalInfo = $builder->getAdditionalInfo();
         $this->urlParam = $builder->getUrlParam();
-
     }
 
-     // Builder
-     public static function builder(): EwalletBuilder {
+    // Builder
+    public static function builder(): EwalletBuilder
+    {
         return new EwalletBuilder();
     }
 
-    public function toArray(): array{
+    public function toArray(): array
+    {
         return [
             "partnerReferenceNo" => $this->partnerReferenceNo,
-            "merchantId" => $this -> merchantId,
-            "subMerchantId" => $this -> subMerchantId,
-            "externalStoreId" => $this -> externalStoreId,
-            "validUpTo" => $this -> validUpTo,
-            "pointOfInitiation" => $this -> pointOfInitiation,
-             "amount" => $this->amount,
-             "additionalInfo" => $this->additionalInfo,
-             "urlParam" => $this->urlParam,
+            "merchantId" => $this->merchantId,
+            "subMerchantId" => $this->subMerchantId,
+            "externalStoreId" => $this->externalStoreId,
+            "validUpTo" => $this->validUpTo,
+            "pointOfInitiation" => $this->pointOfInitiation,
+            "amount" => $this->amount,
+            "additionalInfo" => $this->additionalInfo,
+            "urlParam" => $this->urlParam,
         ];
     }
 
     // GETTER
-    public function getPartnerReferenceNo() {
+    public function getPartnerReferenceNo()
+    {
         return $this->partnerReferenceNo;
     }
 
-    public function getMerchantId() {
+    public function getMerchantId()
+    {
         return $this->merchantId;
     }
 
-    public function getSubMerchantId() {
+    public function getSubMerchantId()
+    {
         return $this->subMerchantId;
     }
 
-    public function getExternalStoreId() {
-    return $this->externalStoreId;
+    public function getExternalStoreId()
+    {
+        return $this->externalStoreId;
     }
 
-    public function getValidUpTo() {
+    public function getValidUpTo()
+    {
         return $this->validUpTo;
     }
 
-    public function getPointOfInitiation() {
+    public function getPointOfInitiation()
+    {
         return $this->pointOfInitiation;
     }
 
-    public function getAmount() {
+    public function getAmount()
+    {
         return $this->amount;
     }
 
-    public function getAdditionalInfo() {
+    public function getAdditionalInfo()
+    {
         return $this->additionalInfo;
     }
 
-    public function getUrlParam() {
+    public function getUrlParam()
+    {
         return $this->urlParam;
     }
-
 }
 
-class EwalletBuilder {
+class EwalletBuilder
+{
 
     private $partnerReferenceNo;
     private $merchantId;
@@ -103,70 +115,85 @@ class EwalletBuilder {
 
     // GETTER
 
-    public function getPartnerReferenceNo() {
+    public function getPartnerReferenceNo()
+    {
         return $this->partnerReferenceNo;
     }
 
-    public function getMerchantId() {
+    public function getMerchantId()
+    {
         return $this->merchantId;
     }
 
-    public function getSubMerchantId() {
+    public function getSubMerchantId()
+    {
         return $this->subMerchantId;
     }
 
-    public function getExternalStoreId() {
-    return $this->externalStoreId;
+    public function getExternalStoreId()
+    {
+        return $this->externalStoreId;
     }
 
-    public function getValidUpTo() {
+    public function getValidUpTo()
+    {
         return $this->validUpTo;
     }
 
-    public function getPointOfInitiation() {
+    public function getPointOfInitiation()
+    {
         return $this->pointOfInitiation;
     }
 
-    public function getAmount() {
+    public function getAmount()
+    {
         return $this->amount;
     }
 
-    public function getAdditionalInfo() {
+    public function getAdditionalInfo()
+    {
         return $this->additionalInfo;
     }
 
-    public function getUrlParam() {
+    public function getUrlParam()
+    {
         return $this->urlParam;
     }
 
     // BUILDER SETTER
 
-    public function partnerReferenceNo($partnerReferenceNo): EwalletBuilder{
+    public function partnerReferenceNo($partnerReferenceNo): EwalletBuilder
+    {
         $this->partnerReferenceNo = $partnerReferenceNo;
         return $this;
     }
 
-    public function merchantId($merchantId): EwalletBuilder{
+    public function merchantId($merchantId): EwalletBuilder
+    {
         $this->merchantId = $merchantId;
         return $this;
     }
 
-    public function subMerchantId($subMerchantId): EwalletBuilder{
+    public function subMerchantId($subMerchantId): EwalletBuilder
+    {
         $this->subMerchantId = $subMerchantId;
         return $this;
     }
 
-    public function externalStoreId($externalStoreId): EwalletBuilder{
+    public function externalStoreId($externalStoreId): EwalletBuilder
+    {
         $this->externalStoreId = $externalStoreId;
         return $this;
     }
 
-    public function validUpTo($validUpTo): EwalletBuilder{
+    public function validUpTo($validUpTo): EwalletBuilder
+    {
         $this->validUpTo = $validUpTo;
         return $this;
     }
 
-    public function pointOfInitiation($pointOfInitiation): EwalletBuilder{
+    public function pointOfInitiation($pointOfInitiation): EwalletBuilder
+    {
         $this->pointOfInitiation = $pointOfInitiation;
         return $this;
     }
@@ -190,7 +217,8 @@ class EwalletBuilder {
         return $this;
     }
 
-    public function amount($value, $currency) : EwalletBuilder{
+    public function amount($value, $currency): EwalletBuilder
+    {
         $amount = [
             "value" => $value,
             "currency" => $currency,
@@ -199,68 +227,81 @@ class EwalletBuilder {
         return $this;
     }
 
-    public function additionalInfo ($additionalInfo): EwalletBuilder{
-        $this ->additionalInfo = $additionalInfo;
+    public function additionalInfo($additionalInfo): EwalletBuilder
+    {
+        $this->additionalInfo = $additionalInfo;
         return $this;
     }
 
-    public function addInfoMitraCd ($mitraCd) : EwalletBuilder{
-        $this ->additionalInfo["mitraCd"] = $mitraCd;
+    public function addInfoMitraCd($mitraCd): EwalletBuilder
+    {
+        $this->additionalInfo["mitraCd"] = $mitraCd;
         return $this;
     }
 
-    public function addInfoGoodsNm ($goodsNm) : EwalletBuilder{
-        $this ->additionalInfo["goodsNm"] = $goodsNm;
+    public function addInfoGoodsNm($goodsNm): EwalletBuilder
+    {
+        $this->additionalInfo["goodsNm"] = $goodsNm;
         return $this;
     }
-    public function addInfoBillingNm ($billingNm) : EwalletBuilder{
-        $this ->additionalInfo["billingNm"] = $billingNm;
-        return $this;
-    }
-
-    
-    public function addInfoBillingPhone ($billingPhone) : EwalletBuilder{
-        $this ->additionalInfo["billingPhone"] = $billingPhone;
+    public function addInfoBillingNm($billingNm): EwalletBuilder
+    {
+        $this->additionalInfo["billingNm"] = $billingNm;
         return $this;
     }
 
-    public function addInfoCallBackUrl ($callBackUrl) : EwalletBuilder{
-        $this ->additionalInfo["callBackUrl"] = $callBackUrl;
+
+    public function addInfoBillingPhone($billingPhone): EwalletBuilder
+    {
+        $this->additionalInfo["billingPhone"] = $billingPhone;
         return $this;
     }
 
-    public function addInfoDbProcessUrl ($dbProcessUrl) : EwalletBuilder{
-        $this ->additionalInfo["dbProcessUrl"] = $dbProcessUrl;
+    public function addInfoCallBackUrl($callBackUrl): EwalletBuilder
+    {
+        $this->additionalInfo["callBackUrl"] = $callBackUrl;
         return $this;
     }
 
-    public function addInfoCartData ($cartData) : EwalletBuilder{
-        $this ->additionalInfo["cartData"] = $cartData;
+    public function addInfoDbProcessUrl($dbProcessUrl): EwalletBuilder
+    {
+        $this->additionalInfo["dbProcessUrl"] = $dbProcessUrl;
         return $this;
     }
 
-    public function addInfoMsId ($msId) : EwalletBuilder{
-        $this ->additionalInfo["msId"] = $msId;
+    public function addInfoCartData($cartData): EwalletBuilder
+    {
+        $this->additionalInfo["cartData"] = $cartData;
         return $this;
     }
 
-    public function addInfoMsfee ($msfee) : EwalletBuilder{
-        $this ->additionalInfo["msfee"] = $msfee;
+    public function addInfoMsId($msId): EwalletBuilder
+    {
+        $this->additionalInfo["msId"] = $msId;
         return $this;
     }
 
-    public function addInfoMsfeetype ($msfeetype) : EwalletBuilder{
-        $this ->additionalInfo["msfeetype"] = $msfeetype;
+    public function addInfoMsfee($msfee): EwalletBuilder
+    {
+        $this->additionalInfo["msfee"] = $msfee;
         return $this;
     }
 
-    public function addInfoMbfee ($mbfee) : EwalletBuilder{
-        $this ->additionalInfo["mbfee"] = $mbfee;
+    public function addInfoMsfeetype($msfeetype): EwalletBuilder
+    {
+        $this->additionalInfo["msfeetype"] = $msfeetype;
         return $this;
     }
 
-    public function addInfoMbfeetype ($mbfeetype) : EwalletBuilder{
-        $this ->additionalInfo["mbfeetype"] = $mbfeetype;
+    public function addInfoMbfee($mbfee): EwalletBuilder
+    {
+        $this->additionalInfo["mbfee"] = $mbfee;
+        return $this;
+    }
+
+    public function addInfoMbfeetype($mbfeetype): EwalletBuilder
+    {
+        $this->additionalInfo["mbfeetype"] = $mbfeetype;
         return $this;
     }
 

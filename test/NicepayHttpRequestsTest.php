@@ -76,27 +76,27 @@ class NicepayHttpRequestsTest extends TestCase
     }
 
     public function testTimeout()
-{
-    $httpRequest = new HttpRequest();
+    {
+        $httpRequest = new HttpRequest();
 
-    try {
-        $httpRequest->request($this->headers, "https://httpstat.us/503?sleep=15100", $this->body, "POST", false, null);
+        try {
+            $httpRequest->request($this->headers, "https://httpstat.us/503?sleep=15100", $this->body, "POST", false, null);
 
-        echo "Test failed - request should have timed out.\n";
-        $this->assertTrue(false, "Test failed");
-    } catch (NicepayError $e) {
-
-        if (strpos($e->getMessage(), 'timed out') !== false) {
-            echo "should timeout after 15 seconds\n";
-            echo "Test passed.\n";
-            $this->assertTrue(true, "Test passed");
-        } else {
-            echo 'Error: ' . $e->getMessage() . "\n";
-            echo "Test failed.\n";
+            echo "Test failed - request should have timed out.\n";
             $this->assertTrue(false, "Test failed");
+        } catch (NicepayError $e) {
+
+            if (strpos($e->getMessage(), 'timed out') !== false) {
+                echo "should timeout after 15 seconds\n";
+                echo "Test passed.\n";
+                $this->assertTrue(true, "Test passed");
+            } else {
+                echo 'Error: ' . $e->getMessage() . "\n";
+                echo "Test failed.\n";
+                $this->assertTrue(false, "Test failed");
+            }
         }
     }
-}
 
 
 

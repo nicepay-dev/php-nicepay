@@ -5,8 +5,6 @@ namespace Nicepay\utils;
 class NicepayCons{
 
     private const SANDBOX_BASE_URL = "https://dev.nicepay.co.id/nicepay/";
-
-    // private const SANDBOX_BASE_URL = "http://localhost:8080/nicepay/";
     private const PRODUCTION_BASE_URL = "https://www.nicepay.co.id/nicepay/";
     private const CREATE_VA_SNAP_ENDPOINT = 'api/v1.0/transfer-va/create-va';
 
@@ -25,6 +23,18 @@ class NicepayCons{
     private const REFUND_EWALLET_SNAP_ENDPOINT = "api/v1.0/debit/refund";
 
     private const CANCEL_V2_ENDPOINT = "direct/v2/cancel";
+
+    private const GENERATE_QRIS_ENDPOINT = "api/v1.0/qr/qr-mpm-generate";
+    private const INQUIRY_STATUS_QRIS_ENDPOINT = "api/v1.0/qr/qr-mpm-query";
+    private const REFUND_QRIS_ENDPOINT = "api/v1.0/qr/qr-mpm-refund";
+
+    private const REGIST_PAYOUT_ENDPOINT = "api/v1.0/transfer/registration";
+    private const CHECK_BALANCE_PAYOUT_ENDPOINT = "api/v1.0/balance-inquiry";
+    private const INQUIRY_STATUS_PAYOUT_ENDPOINT = "api/v1.0/transfer/inquiry";
+    private const CANCEL_PAYOUT_ENDPOINT = "api/v1.0/transfer/cancel";
+
+    private const APPROVE_PAYOUT_ENDPOINT = "api/v1.0/transfer/approve";
+    private const REJECT_PAYOUT_ENDPOINT = "api/v1.0/transfer/reject";
 
 
     public static function getSandboxBaseUrl() : string{
@@ -69,6 +79,43 @@ class NicepayCons{
     public static function getRefundEwalletEndpoint() : string{
         return self::REFUND_EWALLET_SNAP_ENDPOINT; 
     }
+
+    public static function getGenerateQrisEndpoint() : string{
+        return self::GENERATE_QRIS_ENDPOINT;
+    }
+
+    public static function getInquiryStatusQrisEndpoint() : string{
+        return self::INQUIRY_STATUS_QRIS_ENDPOINT;
+    }
+
+    public static function getRefundQrisEndpoint() : string{
+        return self::REFUND_QRIS_ENDPOINT;
+    }
+
+    public static function getRegistPayoutEndpoint() {
+        return self::REGIST_PAYOUT_ENDPOINT;
+    }
+
+    public static function getApprovePayoutEndpoint() {
+        return self::APPROVE_PAYOUT_ENDPOINT;
+    }
+
+    public static function getInquiryStatusPayoutEndpoint(){
+        return self::INQUIRY_STATUS_PAYOUT_ENDPOINT;
+    }
+
+    public static function getCheckBalancePayoutEndpoint(){
+        return self::CHECK_BALANCE_PAYOUT_ENDPOINT;
+    }
+
+    public static function getCancelPayoutEndpoint(){
+        return self::CANCEL_PAYOUT_ENDPOINT;
+    }
+
+    public static function getRejectPayoutEndpoint() {
+        return self::REJECT_PAYOUT_ENDPOINT;
+    }
+
     
 }
 

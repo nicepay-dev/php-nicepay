@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace Nicepay\data\model;
 
-class AccessToken {
+class AccessToken
+{
     private $grantType;
     private $additionalInfo;
 
@@ -13,34 +14,39 @@ class AccessToken {
     }
 
     // Getter
-    public function getGrantType(){
+    public function getGrantType()
+    {
         return $this->grantType;
     }
-    public function getAdditionalInfo(){
+    public function getAdditionalInfo()
+    {
         return $this->additionalInfo;
     }
 
     // Setter
-    public function setGrantType(string $grantType): void{
+    public function setGrantType(string $grantType): void
+    {
         $this->grantType = $grantType;
     }
 
-    
-    public function setAdditionalInfo(array $additionalInfo): void{
+
+    public function setAdditionalInfo(array $additionalInfo): void
+    {
         $this->additionalInfo = $additionalInfo;
     }
 
-    public static function builder(): AccessTokenBuilder {
+    public static function builder(): AccessTokenBuilder
+    {
         return new AccessTokenBuilder();
     }
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'grantType' => $this->grantType,
             'additionalInfo' => $this->additionalInfo,
         ];
     }
-
 }
 
 class AccessTokenBuilder
@@ -76,7 +82,4 @@ class AccessTokenBuilder
     {
         return new AccessToken($this);
     }
-
-    
 }
-

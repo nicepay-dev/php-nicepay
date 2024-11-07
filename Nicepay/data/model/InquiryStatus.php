@@ -25,6 +25,11 @@ class InquiryStatus
     private $externalStoreId;
     private array $amount;
 
+    // PAYOUT
+
+    private $beneficiaryAccountNo;
+
+
 
     // V2
     private $iMid;
@@ -68,6 +73,9 @@ class InquiryStatus
         $this->transactionDate = $builder->getTransactionDate();
         $this->externalStoreId = $builder->getExternalStoreId();
         $this->amount = $builder->getAmount();
+
+        // PAYOUT
+        $this->beneficiaryAccountNo = $builder->getBeneficiaryAccountNo();
     }
 
     public static function builder(): InquiryStatusBuilder
@@ -91,6 +99,7 @@ class InquiryStatus
             'transactionDate' => $this->transactionDate,
             'externalStoreId' => $this->externalStoreId,
             'amount' => $this->amount,
+            'beneficiaryAccountNo' => $this->beneficiaryAccountNo,
         ];
     }
 
@@ -127,6 +136,11 @@ class InquiryStatusBuilder
     private $transactionDate;
     private $externalStoreId;
     private array $amount = [];
+
+
+    // PAYOUT
+
+    private $beneficiaryAccountNo;
 
     //  V2
 
@@ -210,7 +224,8 @@ class InquiryStatusBuilder
         return $this->originalPartnerReferenceNo;
     }
 
-    public function getOriginalReferenceNo(){
+    public function getOriginalReferenceNo()
+    {
         return $this->originalReferenceNo;
     }
 
@@ -233,6 +248,10 @@ class InquiryStatusBuilder
         return $this->amount;
     }
 
+    public function getBeneficiaryAccountNo()
+    {
+        return $this->beneficiaryAccountNo;
+    }
 
     // Setter
     public function setPartnerServiceId($partnerServiceId): InquiryStatusBuilder
@@ -319,42 +338,50 @@ class InquiryStatusBuilder
         return $this;
     }
 
-    public function setMerchantId($merchantId): InquiryStatusBuilder {
-        $this -> merchantId = $merchantId;
+    public function setMerchantId($merchantId): InquiryStatusBuilder
+    {
+        $this->merchantId = $merchantId;
         return $this;
     }
 
-    public function setSubMerchantId($subMerchantId) {
-        $this -> subMerchantId = $subMerchantId;
+    public function setSubMerchantId($subMerchantId)
+    {
+        $this->subMerchantId = $subMerchantId;
         return $this;
     }
 
-    public function setOriginalPartnerReferenceNo($originalPartnerReferenceNo) {
-        $this -> originalPartnerReferenceNo = $originalPartnerReferenceNo;
+    public function setOriginalPartnerReferenceNo($originalPartnerReferenceNo)
+    {
+        $this->originalPartnerReferenceNo = $originalPartnerReferenceNo;
         return $this;
     }
 
-    public function setOriginalReferenceNo($originalReferenceNo) {
-        $this -> originalReferenceNo = $originalReferenceNo;
+    public function setOriginalReferenceNo($originalReferenceNo)
+    {
+        $this->originalReferenceNo = $originalReferenceNo;
         return $this;
     }
 
-    public function setServiceCode($serviceCode) {
-        $this ->serviceCode = $serviceCode;
+    public function setServiceCode($serviceCode)
+    {
+        $this->serviceCode = $serviceCode;
         return $this;
     }
 
-    public function setTransactionDate($transactionDate) {
-        $this ->transactionDate = $transactionDate;
+    public function setTransactionDate($transactionDate)
+    {
+        $this->transactionDate = $transactionDate;
         return $this;
     }
 
-    public function setExternalStoreId($externalStoreId){
-        $this ->externalStoreId = $externalStoreId;
+    public function setExternalStoreId($externalStoreId)
+    {
+        $this->externalStoreId = $externalStoreId;
         return $this;
     }
 
-    public function setAmount($value, $currency){
+    public function setAmount($value, $currency)
+    {
         $amount = [
             "value" => $value,
             "currency" => $currency,
@@ -363,8 +390,15 @@ class InquiryStatusBuilder
         return $this;
     }
 
-    public function setAdditionalInfo($additionalInfo){
-        $this ->additionalInfo = $additionalInfo;
+    public function setAdditionalInfo($additionalInfo): InquiryStatusBuilder
+    {
+        $this->additionalInfo = $additionalInfo;
+        return $this;
+    }
+
+    public function setBeneficiaryAccountNo($beneficiaryAccountNo): InquiryStatusBuilder
+    {
+        $this->beneficiaryAccountNo = $beneficiaryAccountNo;
         return $this;
     }
 

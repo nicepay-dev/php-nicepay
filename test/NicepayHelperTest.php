@@ -1,4 +1,5 @@
 <?php
+
 namespace test;
 
 use PHPUnit\Framework\TestCase;
@@ -19,7 +20,7 @@ class NicepayHelperTest extends TestCase
     protected function setUp(): void
     {
         $this->clientSecret = TestConst::$CLIENT_SECRET;
-        $this->privateKeyString =TestConst::$KEY_OLD_FORMAT;
+        $this->privateKeyString = TestConst::$KEY_OLD_FORMAT;
     }
 
     public function testAbleToStartTest()

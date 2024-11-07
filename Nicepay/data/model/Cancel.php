@@ -111,7 +111,7 @@ class Cancel
             'subMerchantId' => $this->subMerchantId,
             'originalPartnerReferenceNo' => $this->originalPartnerReferenceNo,
             'originalReferenceNo' => $this->originalReferenceNo,
-            'serviceCode' => $this -> serviceCode,
+            'serviceCode' => $this->serviceCode,
             'transactionDate' => $this->transactionDate,
             'externalStoreId' => $this->externalStoreId,
             'refundAmount' => $this->refundAmount,
@@ -136,7 +136,8 @@ class Cancel
     }
 
     // Builder
-    public static function builder(): CancelBuilder {
+    public static function builder(): CancelBuilder
+    {
         return new CancelBuilder();
     }
 
@@ -308,7 +309,8 @@ class Cancel
 
     // SETTER 
 
-    public function setMerchantToken($merchantToken){
+    public function setMerchantToken($merchantToken)
+    {
         $this->merchantToken = $merchantToken;
     }
 }
@@ -360,6 +362,7 @@ class CancelBuilder
 
     private array $totalAmount = [];
     private array $additionalInfo = [];
+
 
 
     // Getter

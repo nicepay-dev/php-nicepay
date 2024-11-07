@@ -18,7 +18,7 @@ class NicepayEwalletTest extends TestCase
     private $iMid;
 
 
-    
+
     public function setUp(): void
     {
 
@@ -35,7 +35,8 @@ class NicepayEwalletTest extends TestCase
             ->build();
     }
 
-    private function getAccessToken(NICEPay $config): string{
+    private function getAccessToken(NICEPay $config): string
+    {
 
 
         $tokenBody = AccessToken::builder()
@@ -53,7 +54,6 @@ class NicepayEwalletTest extends TestCase
         }
 
         return $response->getAccessToken();
-
     }
 
     public function testEwalletPaymentSnap()
@@ -84,26 +84,19 @@ class NicepayEwalletTest extends TestCase
             ])
             ->build();
 
-            $ewalletService = new SnapEwalletService($this->configSnap);
-            $accessToken = self::getAccessToken($this->configSnap);
+        $ewalletService = new SnapEwalletService($this->configSnap);
+        $accessToken = self::getAccessToken($this->configSnap);
 
 
-            try {
-                
-                $response = $ewalletService->paymentEwallet($requestBody, $accessToken);
+        try {
 
-                var_dump("Response :");
-                var_dump( $response);
-                         
-                $this -> assertEquals("2005400", $response->getResponseCode());
-                $this -> assertEquals("Successful", $response->getResponseMessage());
-                
-                
-            } catch (Exception $e) {
+            $response = $ewalletService->paymentEwallet($requestBody, $accessToken);
 
-                $this -> fail ("Ewallet Snap Payment Test Failed, Error thrown : ". $e->getMessage());
-            }
+            $this->assertEquals("2005400", $response->getResponseCode());
+            $this->assertEquals("Successful", $response->getResponseMessage());
+        } catch (Exception $e) {
 
-
+            $this->fail("Ewallet Snap Payment Test Failed, Error thrown : " . $e->getMessage());
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace Nicepay\utils;
 
 use DateTime;
 use DateTimeZone;
+use Exception;
 use Nicepay\common\NicepayError;
 
 class Helper
@@ -106,4 +107,33 @@ class Helper
     {
         return hash('sha256', $tokenString);
     }
+
+    public static function verifySHA256RSA($stringToSign, $publicKeyString, $signatureString) {
+        $isVerified = false;
+        try {
+            // Decode the public key and signature from base64
+            $publicKey = openssl_pkey_get_public("-----BEGIN PUBLIC KEY-----\n" . wordwrap($publicKeyString, 64, "\n", true) . "\n-----END PUBLIC KEY-----");
+            $signature = base64_decode($signatureString);
+            $stringToSignBytes = $stringToSign;
+    
+            if (!$publicKey) {
+                throw new NicepayError("Invalid public key format.");
+            }
+    
+            // Verify the signature using SHA256 with RSA
+            $isVerified = openssl_verify($stringToSignBytes, $signature, $publicKey, OPENSSL_ALGO_SHA256) === 1;
+    
+            // // Log result
+            // if ($isVerified) {
+            //     echo "Signature is valid";
+            // } else {
+            //     echo "Signature is invalid";
+            // }
+        } catch (Exception $e) {
+            echo "Error Verifying Signature: " . $e->getMessage();
+        }
+    
+        return $isVerified;
+    }
+    
 }

@@ -383,127 +383,158 @@ class VirtualAccount
         $this->merchantToken = $merchantToken;
     }
 
-    public function getCartData() {
+    public function getCartData()
+    {
         return $this->cartData;
     }
-    
-    public function setCartData(string $cartData): void {
+
+    public function setCartData(string $cartData): void
+    {
         $this->cartData = $cartData;
     }
-    
-    public function getDeliveryNm() {
+
+    public function getDeliveryNm()
+    {
         return $this->deliveryNm;
     }
-    
-    public function setDeliveryNm(string $deliveryNm): void {
+
+    public function setDeliveryNm(string $deliveryNm): void
+    {
         $this->deliveryNm = $deliveryNm;
     }
-    
-    public function getDeliveryPhone() {
+
+    public function getDeliveryPhone()
+    {
         return $this->deliveryPhone;
     }
-    
-    public function setDeliveryPhone(string $deliveryPhone): void {
+
+    public function setDeliveryPhone(string $deliveryPhone): void
+    {
         $this->deliveryPhone = $deliveryPhone;
     }
-    
-    public function getDeliveryAddr() {
+
+    public function getDeliveryAddr()
+    {
         return $this->deliveryAddr;
     }
-    
-    public function setDeliveryAddr(string $deliveryAddr): void {
+
+    public function setDeliveryAddr(string $deliveryAddr): void
+    {
         $this->deliveryAddr = $deliveryAddr;
     }
-    
-    public function getDeliveryCity() {
+
+    public function getDeliveryCity()
+    {
         return $this->deliveryCity;
     }
-    
-    public function setDeliveryCity(string $deliveryCity): void {
+
+    public function setDeliveryCity(string $deliveryCity): void
+    {
         $this->deliveryCity = $deliveryCity;
     }
-    
-    public function getDeliveryState() {
+
+    public function getDeliveryState()
+    {
         return $this->deliveryState;
     }
-    
-    public function setDeliveryState(string $deliveryState): void {
+
+    public function setDeliveryState(string $deliveryState): void
+    {
         $this->deliveryState = $deliveryState;
     }
-    
-    public function getDeliveryPostCd() {
+
+    public function getDeliveryPostCd()
+    {
         return $this->deliveryPostCd;
     }
-    
-    public function setDeliveryPostCd(string $deliveryPostCd): void {
+
+    public function setDeliveryPostCd(string $deliveryPostCd): void
+    {
         $this->deliveryPostCd = $deliveryPostCd;
     }
-    
-    public function getDeliveryCountry() {
+
+    public function getDeliveryCountry()
+    {
         return $this->deliveryCountry;
     }
-    
-    public function setDeliveryCountry(string $deliveryCountry): void {
+
+    public function setDeliveryCountry(string $deliveryCountry): void
+    {
         $this->deliveryCountry = $deliveryCountry;
     }
-    
-    public function getDescription() {
+
+    public function getDescription()
+    {
         return $this->description;
     }
-    
-    public function setDescription(string $description): void {
+
+    public function setDescription(string $description): void
+    {
         $this->description = $description;
     }
-    
-    public function getReqDomain() {
+
+    public function getReqDomain()
+    {
         return $this->reqDomain;
     }
-    
-    public function setReqDomain(string $reqDomain): void {
+
+    public function setReqDomain(string $reqDomain): void
+    {
         $this->reqDomain = $reqDomain;
     }
-    
-    public function getReqServerIP() {
+
+    public function getReqServerIP()
+    {
         return $this->reqServerIP;
     }
-    
-    public function setReqServerIP(string $reqServerIP): void {
+
+    public function setReqServerIP(string $reqServerIP): void
+    {
         $this->reqServerIP = $reqServerIP;
     }
-    
-    public function getUserIP() {
+
+    public function getUserIP()
+    {
         return $this->userIP;
     }
-    
-    public function setUserIP(string $userIP): void {
+
+    public function setUserIP(string $userIP): void
+    {
         $this->userIP = $userIP;
     }
-    
-    public function getUserSessionID() {
+
+    public function getUserSessionID()
+    {
         return $this->userSessionID;
     }
-    
-    public function setUserSessionID(string $userSessionID): void {
+
+    public function setUserSessionID(string $userSessionID): void
+    {
         $this->userSessionID = $userSessionID;
     }
-    
-    public function getUserAgent() {
+
+    public function getUserAgent()
+    {
         return $this->userAgent;
     }
-    
-    public function setUserAgent(string $userAgent): void {
+
+    public function setUserAgent(string $userAgent): void
+    {
         $this->userAgent = $userAgent;
     }
-    
-    public function getUserLanguage() {
+
+    public function getUserLanguage()
+    {
         return $this->userLanguage;
     }
-    
-    public function setUserLanguage(string $userLanguage): void {
+
+    public function setUserLanguage(string $userLanguage): void
+    {
         $this->userLanguage = $userLanguage;
     }
-    
-    public static function builder(): VirtualAccountBuilder {
+
+    public static function builder(): VirtualAccountBuilder
+    {
         return new VirtualAccountBuilder();
     }
 
@@ -521,7 +552,8 @@ class VirtualAccount
         ];
     }
 
-    public function toArrayV2(): array{
+    public function toArrayV2(): array
+    {
 
         return [
             'timeStamp' => $this->timeStamp,
@@ -561,8 +593,6 @@ class VirtualAccount
             'userAgent' => $this->userAgent,
             'userLanguage' => $this->userLanguage,
         ];
-        
-
     }
 }
 
@@ -918,9 +948,10 @@ class VirtualAccountBuilder
         return $this->merchantToken;
     }
 
-    public function setMerchantToken($timeStamp, $iMid, $reffNo, $amount, $merchantKey): VirtualAccountBuilder{
+    public function setMerchantToken($timeStamp, $iMid, $reffNo, $amount, $merchantKey): VirtualAccountBuilder
+    {
 
-        $this->merchantToken = $timeStamp. $iMid. $reffNo. $amount. $merchantKey;
+        $this->merchantToken = $timeStamp . $iMid . $reffNo . $amount . $merchantKey;
         return $this;
     }
 

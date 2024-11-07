@@ -4,7 +4,8 @@ NICEPAY ❤️PHP!
 
 This is the Official PHP API client/library for NICEPAY Payment API. Visit [PHP Library](https://github.com/nicepay-dev/java-nicepay). 
 More information about the product and see documentation at [NICEPAY Docs](https://docs.nicepay.co.id/) for more technical details.
-This library provides access to Nicepay BI SNAP APIs.
+
+This library provides access to Nicepay BI SNAP and V2 APIs for backend use.
 
 This library currently supports the following payment methods:
 
@@ -14,16 +15,54 @@ This library currently supports the following payment methods:
 - **Virtual Account**:
     - Generate Virtual Account
     - Inquiry Status
-
+    - Cancel
+- **Ewallet**:
+    - Payment
+    - Inquiry Status
+    - Refund
+- **QRIS**:
+    - Generate QRIS
+    - Inquiry Status 
+    - Refund
+- **Payout**:
+    - Registration
+    - Approve
+    - Inquiry Status
+    - Check Balance
+    - Cancel
+    - Reject
 
 ### V2 Version:
 - **Virtual Account**:
     - Generate Virtual Account
     - Inquiry Status
+    - Cancel
+
+### Additional Function
+- **Helper**
+    - Verify Signature Sha256
 
 ## 1. Installation
 ### 1.1 Manual Install
-You can clone or [download](https://github.com/nicepay-dev/nicepay-php) our source code, then import the folder manually into your project.
+You can clone or [download](https://github.com/nicepay-dev/nativephp-nicepay) our source code, then import the folder manually into your project.
+
+### 1.2 Manual Install with Github link
+Add the repository details on your project composer.json
+```json     
+{
+  "require": {
+        "nicepay/nicepay-php": "dev-master"
+    },
+  "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/nicepay-dev/nativephp-nicepay"
+        }
+    ],
+}
+```
+
+Run **composer install** if it’s your first time or **composer update nicepay/nicepay-php** to update that specific package.
 
 
 ## 2. Usage
@@ -165,12 +204,36 @@ $timestamp = Helper::getFormattedTimestampV2();
         }
 
 ```
+
+### 2.2.3 Additional Function
+
+#### Verify Signature Sha256
+import :
+```php
+use Nicepay\utils\Helper;
+```
+
+Code : 
+```php
+
+$signatureString = "VoxMPjbcV9pro4YyHGQgoRj4rDVJgYk2Ecxn+95B90w47Wnabtco35BfhGpR7a5RukUNnAdeOEBNczSFk4B9uYyu3jc+ceX+Dvz5OYSgSnw5CiMHtGiVnTAqCM/yHZ2MRpIEqekBc4BWMLVtexSWp0YEJjLyo9dZPrSkSbyLVuD7jkUbvmEpVdvK0uK15xb8jueCcDA6LYVXHkq/OMggS1/5mrLNriBhCGLuR7M7hBUJbhpOXSJJEy7XyfItTBA+3MRC2FLcvUpMDrn/wz1uH1+b9A6FP7mG0bRSBOm2BTLyf+xJR5+cdd88RhF70tNQdQxhqr4okVo3IFqlCz2FFg==";
+$dataString = "TNICEVA023|2024-08-19T17:12:40+07:00";
+$publicKeyString = TestConst::$PUBLIC_KEY;
+
+$isVerify = Helper::verifySHA256RSA($dataString, $publicKeyString, $signatureString);
+
+```
+
 ## 3. Examples
 
 Integration test are available
 
 - [Virtual Account Sample Functional Test](test/NicepayVirtualAccountTest.php)
+- [E-Wallet Sample Functional Test](test/NicepayEwalletTest.php)
+- [QRIS Sample Functional Test](test/NicepayQrisTest.php)
+- [Payout Sample Functional Test](test/NicepayPayourTest.php)
 - [Inquiry Status Sample Functional Test](test/NicepayInquiryStatusTest.php)
+- [Cancel / Refund Sample Functional Test](test/NicepayCancelTest.php)
 
 ## Get help
 

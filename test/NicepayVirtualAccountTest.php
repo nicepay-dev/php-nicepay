@@ -16,7 +16,7 @@ use test\TestConst;
 class NicepayVirtualAccountTest extends TestCase
 {
 
-    
+
     private $clientSecret;
     private $oldKeyFormat;
     private $iMidTest;
@@ -25,9 +25,9 @@ class NicepayVirtualAccountTest extends TestCase
     protected function setUp(): void
     {
         $this->clientSecret = TestConst::$CLIENT_SECRET;
-        $this-> iMidTest = TestConst::$IMID_TEST;
-        $this-> merchantKey = TestConst::$MERCHANT_KEY;
-        $this-> oldKeyFormat = TestConst::$KEY_OLD_FORMAT;
+        $this->iMidTest = TestConst::$IMID_TEST;
+        $this->merchantKey = TestConst::$MERCHANT_KEY;
+        $this->oldKeyFormat = TestConst::$KEY_OLD_FORMAT;
     }
 
     public function testGenerateVASnap()
@@ -37,12 +37,12 @@ class NicepayVirtualAccountTest extends TestCase
             ->setIsProduction(false)
             ->setPrivateKey($this->oldKeyFormat)
             ->setClientSecret($this->clientSecret)
-            ->setPartnerId($this -> iMidTest)
+            ->setPartnerId($this->iMidTest)
             ->setExternalID("extIDVa" . $timestamp)
             ->setTimestamp($timestamp)
             ->build();
 
-    
+
 
         $virtualAccountBuilder = VirtualAccount::builder();
         $parameter = $virtualAccountBuilder
@@ -53,7 +53,7 @@ class NicepayVirtualAccountTest extends TestCase
             ->setTrxId("ordNo" . $timestamp)
             ->setTotalAmount('10000.00', 'IDR')
             ->setAdditionalInfo([
-                'bankCd' => 'BMRI',     
+                'bankCd' => 'BMRI',
                 'goodsNm' => 'Test',
                 'dbProcessUrl' => 'https://nicepay.co.id/',
             ])
@@ -64,7 +64,7 @@ class NicepayVirtualAccountTest extends TestCase
         $snapVAService = new SnapVAService($config);
 
         try {
-        $response = $snapVAService->generateVA($parameter, $accessToken);
+            $response = $snapVAService->generateVA($parameter, $accessToken);
             $this->assertEquals("2002700", $response->getResponseCode());
             $this->assertEquals("Successful", $response->getResponseMessage());
             // Add more assertions as needed for specific response properties
@@ -81,7 +81,7 @@ class NicepayVirtualAccountTest extends TestCase
             ->setIsProduction(false)
             ->build();
 
-        $reffNo = "ordNo".$timestamp;
+        $reffNo = "ordNo" . $timestamp;
         $amount = "100";
         $virtualAccountBuilder = VirtualAccount::builder();
         $parameter = $virtualAccountBuilder
@@ -108,11 +108,11 @@ class NicepayVirtualAccountTest extends TestCase
             ->setBillingPostCd("15119")
             ->setBillingCountry("Indonesia")
             ->build();
-                
+
         $v2VaService = new V2VAService();
 
         try {
-        $response = $v2VaService->generateVA($parameter, $config);
+            $response = $v2VaService->generateVA($parameter, $config);
             $this->assertEquals("0000", $response->getResultCd());
             $this->assertEquals("SUCCESS", $response->getResultMsg());
             // Add more assertions as needed for specific response properties
@@ -131,7 +131,7 @@ class NicepayVirtualAccountTest extends TestCase
             ->setRetryCount(4) // 4 retry
             ->build();
 
-        $reffNo = "ordNo".$timestamp;
+        $reffNo = "ordNo" . $timestamp;
         $amount = "100";
         $virtualAccountBuilder = VirtualAccount::builder();
         $parameter = $virtualAccountBuilder
@@ -158,11 +158,11 @@ class NicepayVirtualAccountTest extends TestCase
             ->setBillingPostCd("15119")
             ->setBillingCountry("Indonesia")
             ->build();
-                
+
         $v2VaService = new V2VAService();
 
         try {
-        $response = $v2VaService->generateVA($parameter, $config);
+            $response = $v2VaService->generateVA($parameter, $config);
             $this->assertEquals("0000", $response->getResultCd());
             $this->assertEquals("SUCCESS", $response->getResultMsg());
             // Add more assertions as needed for specific response properties
@@ -171,12 +171,13 @@ class NicepayVirtualAccountTest extends TestCase
         }
     }
 
-    
 
 
-    
 
-    private function getAccessToken(NICEPay $config): string{
+
+
+    private function getAccessToken(NICEPay $config): string
+    {
 
 
         $tokenBody = AccessToken::builder()
@@ -194,21 +195,18 @@ class NicepayVirtualAccountTest extends TestCase
         }
 
         return $response->getAccessToken();
-
     }
 
     public function testRetryWith504Response()
-{
-    $requestUrl = 'https://httpstat.us/504?sleep=1000';
+    {
+        $requestUrl = 'https://httpstat.us/504?sleep=1000';
 
-    $httpRequest = new HttpRequest();
+        $httpRequest = new HttpRequest();
 
-    try {
-        $response = $httpRequest->request([], $requestUrl, '', 'GET', true, 5);
-    } catch (NICEPayError $e) {
-        $this->assertTrue(true, "Error Success");
+        try {
+            $response = $httpRequest->request([], $requestUrl, '', 'GET', true, 5);
+        } catch (NICEPayError $e) {
+            $this->assertTrue(true, "Error Success");
+        }
     }
-
-
-}
 }

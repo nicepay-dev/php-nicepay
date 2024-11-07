@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -20,13 +21,13 @@ class NicepaySnapTest extends TestCase
     protected function setUp(): void
     {
         $this->clientSecret = TestConst::$CLIENT_SECRET;
-        $this-> oldKeyFormat = TestConst::$KEY_OLD_FORMAT;
+        $this->oldKeyFormat = TestConst::$KEY_OLD_FORMAT;
     }
 
 
     public function testRequestSnapAccessToken()
     {
-        
+
         // Build the NICEPay config using the builder method
         $configBuilder = NICEPay::builder();
         $timestamp = Helper::getFormattedDate();
@@ -35,7 +36,7 @@ class NicepaySnapTest extends TestCase
             ->setPrivateKey($this->oldKeyFormat)
             ->setClientSecret($this->clientSecret)
             ->setPartnerId(TestConst::$IMID_TEST)
-            ->setExternalID("extId".$timestamp)
+            ->setExternalID("extId" . $timestamp)
             ->setTimestamp($timestamp)
             ->build();
 
@@ -48,13 +49,13 @@ class NicepaySnapTest extends TestCase
 
         try {
             $response = $snap->requestSnapAccessToken($tokenBody);
-            
+
             $this->assertEquals("2007300", $response->getResponseCode());
             $this->assertEquals("Successful", $response->getResponseMessage());
 
-            
-            $accessToken = $response->getAccessToken();  
-        
+
+            $accessToken = $response->getAccessToken();
+
             // Store the access token for use in other tests or class properties
             $this->storeAccessToken($accessToken);
         } catch (NicepayError $e) {
@@ -70,7 +71,7 @@ class NicepaySnapTest extends TestCase
         if ($accessToken === null || $accessToken === "") {
             $accessToken = self::getAccessToken();
         }
-        
+
         $timestamp = Helper::getFormattedDate();
         $configBuilder = NICEPay::builder();
         $config = $configBuilder
@@ -78,24 +79,24 @@ class NicepaySnapTest extends TestCase
             ->setPrivateKey($this->oldKeyFormat)
             ->setClientSecret($this->clientSecret)
             ->setPartnerId(TestConst::$IMID_TEST)
-            ->setExternalID("extId".$timestamp)
+            ->setExternalID("extId" . $timestamp)
             ->setTimestamp($timestamp)
             ->build();
 
         $virtualAccountBuilder = VirtualAccount::builder();
         $parameter = $virtualAccountBuilder
-        ->setPartnerServiceId("")
-        ->setCustomerNo("")
-        ->setVirtualAccountNo("")
-        ->setVirtualAccountName("Nicepay PHP Test")
-        ->setTrxId("ordNo". $timestamp)
-        ->setTotalAmount('10000.00', 'IDR')
-        ->setAdditionalInfo([
-            'bankCd' => 'BMRI',
-            'goodsNm' => 'Test',
-            'dbProcessUrl' => 'https://nicepay.co.id/',
-        ])
-        ->build();
+            ->setPartnerServiceId("")
+            ->setCustomerNo("")
+            ->setVirtualAccountNo("")
+            ->setVirtualAccountName("Nicepay PHP Test")
+            ->setTrxId("ordNo" . $timestamp)
+            ->setTotalAmount('10000.00', 'IDR')
+            ->setAdditionalInfo([
+                'bankCd' => 'BMRI',
+                'goodsNm' => 'Test',
+                'dbProcessUrl' => 'https://nicepay.co.id/',
+            ])
+            ->build();
 
         $snap = new Snap($config);
 
@@ -103,7 +104,7 @@ class NicepaySnapTest extends TestCase
 
         try {
             $response = $snap->requestSnapTransaction($parameter, $endPoint, $accessToken, "POST");
-            
+
             $this->assertEquals("2002700", $response->getResponseCode());
             $this->assertEquals("Successful", $response->getResponseMessage());
             // Add more assertions as needed for specific response properties
@@ -112,7 +113,8 @@ class NicepaySnapTest extends TestCase
         }
     }
 
-    private function getAccessToken(): string{
+    private function getAccessToken(): string
+    {
 
         $configBuilder = NICEPay::builder();
         $timestamp = Helper::getFormattedDate();
@@ -121,7 +123,7 @@ class NicepaySnapTest extends TestCase
             ->setPrivateKey($this->oldKeyFormat)
             ->setClientSecret(clientSecret: $this->clientSecret)
             ->setPartnerId(TestConst::$IMID_TEST)
-            ->setExternalID("extId".$timestamp)
+            ->setExternalID("extId" . $timestamp)
             ->setTimestamp($timestamp)
             ->build();
 
@@ -135,8 +137,8 @@ class NicepaySnapTest extends TestCase
         try {
             $response = $snap->requestSnapAccessToken($tokenBody);
             $accessToken = $response->getAccessToken();
-               
-            
+
+
             $this->storeAccessToken($accessToken);
         } catch (NicepayError $e) {
             $this->fail("Exception thrown: " . $e->getMessage());
@@ -166,5 +168,3 @@ class NicepaySnapTest extends TestCase
         return $_SESSION['accessToken'] ?? '';
     }
 }
-
-
