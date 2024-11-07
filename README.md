@@ -141,10 +141,10 @@ $parameter = VirtualAccount::builder()
 
 
         $accessToken = ""; // Check 2.2.1.1 for step to get access token
-        $snapVAService = new SnapVAService();
+        $snapVAService = new SnapVAService($config);
 
         try {
-        $response = $snapVAService->generateVA($parameter, $accessToken, $config);
+        $response = $snapVAService->generateVA($parameter, $accessToken);
         } catch (NicepayError $e) {
             $this->fail("Exception thrown: " . $e->getMessage());
         }
