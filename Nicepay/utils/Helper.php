@@ -95,6 +95,11 @@ class Helper
         return "{$year}-{$month}-{$day}T{$hour}:{$minute}:{$second}{$offset}";
     }
 
+    /**
+     * Do convert private key string to private key with header
+     * @param  string $key - private key in string format
+     * @return string - private key with header
+     */
     public static function getKey($key)
     {
         return "-----BEGIN RSA PRIVATE KEY-----" . "\r\n" .
@@ -103,11 +108,24 @@ class Helper
             "-----END RSA PRIVATE KEY-----";
     }
 
+    /**
+     * Generate merchant token
+     * @param  string $tokenString - Merchant data string to generate into merchant token
+     * @return string - merchant token
+     */
     public static function generateMerchantToken($tokenString)
     {
         return hash('sha256', $tokenString);
     }
 
+    /**
+     * Verify String data with RSA signature
+     * @param  string $stringToSign - String data to verify
+     * @param  string $publicKeyString - Public key in string format
+     * @param  string $signatureString - Signature in string format
+     * @return boolean - true if signature is valid, false if not
+     * @throws NicepayError - throws an exception if public key is invalid
+     */
     public static function verifySHA256RSA($stringToSign, $publicKeyString, $signatureString) {
         $isVerified = false;
         try {
@@ -123,12 +141,6 @@ class Helper
             // Verify the signature using SHA256 with RSA
             $isVerified = openssl_verify($stringToSignBytes, $signature, $publicKey, OPENSSL_ALGO_SHA256) === 1;
     
-            // // Log result
-            // if ($isVerified) {
-            //     echo "Signature is valid";
-            // } else {
-            //     echo "Signature is invalid";
-            // }
         } catch (Exception $e) {
             echo "Error Verifying Signature: " . $e->getMessage();
         }

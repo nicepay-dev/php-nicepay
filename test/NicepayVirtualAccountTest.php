@@ -109,10 +109,10 @@ class NicepayVirtualAccountTest extends TestCase
             ->setBillingCountry("Indonesia")
             ->build();
 
-        $v2VaService = new V2VAService();
+        $v2VaService = new V2VAService($config);
 
         try {
-            $response = $v2VaService->generateVA($parameter, $config);
+            $response = $v2VaService->registration($parameter);
             $this->assertEquals("0000", $response->getResultCd());
             $this->assertEquals("SUCCESS", $response->getResultMsg());
             // Add more assertions as needed for specific response properties
@@ -159,22 +159,17 @@ class NicepayVirtualAccountTest extends TestCase
             ->setBillingCountry("Indonesia")
             ->build();
 
-        $v2VaService = new V2VAService();
+        $v2VaService = new V2VAService($config);
 
         try {
-            $response = $v2VaService->generateVA($parameter, $config);
+            $response = $v2VaService->registration($parameter);
             $this->assertEquals("0000", $response->getResultCd());
             $this->assertEquals("SUCCESS", $response->getResultMsg());
-            // Add more assertions as needed for specific response properties
+
         } catch (NicepayError $e) {
             $this->assertTrue(true, "Exmessage: ception thrown: " . $e->getMessage());
         }
     }
-
-
-
-
-
 
     private function getAccessToken(NICEPay $config): string
     {

@@ -17,6 +17,15 @@ class NicepayV2 {
         $this->httpClient = new HttpRequest();
     }
 
+    /**
+     * Request a transaction to NICEPAY V2 API.
+     *
+     * @param mixed $parameter the request body
+     * @param string $endPoint the API endpoint
+     * @param string $method the HTTP method
+     *
+     * @return NicepayV2Response the response from the API
+     */
     public function requestV2Transaction($parameter, $endPoint, $method) :NicepayV2Response {
         
         $config = $this->apiConfig;
@@ -33,6 +42,30 @@ class NicepayV2 {
         $response = $this->httpClient->request($headers, $url, $jsonData, $method, $config->isRetryFlag(), $config->getRetryCount());
 
         return NicepayV2Response::fromArray($response);
+    }
+
+    /**
+     * Request a transaction to NICEPAY V2 API with urlencoded body.
+     *
+     * @param mixed $parameter the request body
+     * @param string $endPoint the API endpoint
+     * @param string $method the HTTP method
+     *
+     * @return mixed the response from the API
+     */
+    public function requestV2TransactionUrlencodedBody($parameter, $endPoint, $method) {
+        
+        $config = $this->apiConfig;
+
+        // generate merchantToken 
+        $parameter -> setMerchantToken(Helper::generateMerchantToken($parameter->getMerchantToken()));
+        $url = $this->apiConfig->getNicepayBaseUrl() . $endPoint;
+        $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+        $encodedBody = http_build_query($parameter->toArrayPayment());
+
+        $response = $this->httpClient->requestWithUrlEncodedBody($headers, $url, $encodedBody, $method, $config->isRetryFlag(), $config->getRetryCount());
+
+        return $response;
     }
 
 

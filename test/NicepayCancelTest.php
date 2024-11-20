@@ -1,11 +1,10 @@
 <?php
 
-use Nicepay\common\NICEPay;
-use Nicepay\common\NicepayError;
-use Nicepay\data\model\{AccessToken, Cancel, VirtualAccount, Payout};
+use Nicepay\common\{NICEPay, NicepayError};
+use Nicepay\data\model\{AccessToken, Cancel, VirtualAccount, Payout, CvS};
 use Nicepay\data\response\NicepayResponse;
 use Nicepay\service\snap\{Snap, SnapQrisService, SnapVAService, SnapPayoutService, SnapEwalletService};
-use Nicepay\service\v2\V2VAService;
+use Nicepay\service\v2\{V2VAService, V2CardService, V2CvsService};
 use Nicepay\utils\Helper;
 use test\TestConst;
 use PHPUnit\Framework\TestCase;
@@ -22,8 +21,6 @@ class NicepayCancelTest extends TestCase
     private $iMid;
     private $amount;
     private $merchantKey;
-
-
 
     public function setUp(): void
     {
@@ -106,38 +103,6 @@ class NicepayCancelTest extends TestCase
         }
     }
 
-
-    public function testCancelV2()
-    {
-
-        $config = $this->configV2;
-        $timestamp = Helper::getFormattedTimestampV2();
-        $sampleVA = $this->generateNewVA();
-        $txId = $sampleVA->getTXid();
-        $reffNo = $sampleVA->getReferenceNo();
-
-        $requestBody = Cancel::builder()
-            ->setTimeStamp($timestamp)
-            ->setIMid($this->iMid)
-            ->setTXid($txId)
-            ->setReferenceNo($reffNo)
-            ->setMerchantToken($timestamp, $this->iMid, $txId, $this->amount, $this->merchantKey)
-            ->setPayMethod("02")
-            ->setCancelType("1")
-            ->setAmt($this->amount)
-            ->build();
-
-        try {
-
-            $v2VaService = new V2VAService();
-            $response = $v2VaService->cancel($requestBody, $config);
-
-            $this->assertEquals("0000", $response->getResultCd());
-            $this->assertEquals("SUCCESS", $response->getResultMsg());
-        } catch (Exception $e) {
-            $this->fail("Test cancel V2 failed! exception thrown : " . $e->getMessage());
-        }
-    }
 
     public function testRefundEwalletSnap()
     {
@@ -225,7 +190,7 @@ class NicepayCancelTest extends TestCase
         $accessToken = self::getAccessToken($config);
         $payOutData = self::registNewPayout($accessToken);
 
-        
+
         $requestBody = Cancel::builder()
             ->setMerchantId(TestConst::$NORMALTEST)
             ->setOriginalReferenceNo($payOutData->getOriginalReferenceNo())
@@ -285,29 +250,29 @@ class NicepayCancelTest extends TestCase
     }
 
 
-    private function approvePayoutSnap(NicepayResponse $payoutData, $accessToken){
+    private function approvePayoutSnap(NicepayResponse $payoutData, $accessToken)
+    {
 
         $config = NICEPay::builder()
-        ->setIsProduction(false)
-        ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
-        ->setPartnerId(TestConst::$NORMALTEST)
-        ->setExternalID("approvePOc" . Helper::getFormattedTimestampV2())
-        ->setTimestamp($this->timestamp)
-        ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
-        ->build();;
-        
+            ->setIsProduction(false)
+            ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
+            ->setPartnerId(TestConst::$NORMALTEST)
+            ->setExternalID("approvePOc" . Helper::getFormattedTimestampV2())
+            ->setTimestamp($this->timestamp)
+            ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
+            ->build();;
+
         $requestBody = Payout::builder()
-        -> merchantId(TestConst::$NORMALTEST)
-        -> originalReferenceNo($payoutData -> getOriginalReferenceNo())
-        -> originalPartnerReferenceNo($payoutData -> getPartnerReferenceNo())
-        -> build();
+            ->merchantId(TestConst::$NORMALTEST)
+            ->originalReferenceNo($payoutData->getOriginalReferenceNo())
+            ->originalPartnerReferenceNo($payoutData->getPartnerReferenceNo())
+            ->build();
 
         try {
             $payoutService = new SnapPayoutService($config);
-            $response = $payoutService -> approve($requestBody, $accessToken);
-            
-        } catch (Exception $e){
-            throw new NicepayError("Failed test registration failed , exception thrown :".$e->getMessage());
+            $response = $payoutService->approve($requestBody, $accessToken);
+        } catch (Exception $e) {
+            throw new NicepayError("Failed test registration failed , exception thrown :" . $e->getMessage());
         }
     }
 
@@ -344,7 +309,7 @@ class NicepayCancelTest extends TestCase
 
         $payoutService = new SnapPayoutService($config);
         $response = $payoutService->registration($requestBody, $accessToken);
-        
+
         return $response;
     }
 
@@ -381,14 +346,159 @@ class NicepayCancelTest extends TestCase
             ->setBillingCountry("Indonesia")
             ->build();
 
-        $v2VaService = new V2VAService();
+        $v2VaService = new V2VAService($config);
 
         try {
-            $response = $v2VaService->generateVA($parameter, $config);
-
+            $response = $v2VaService->registration($parameter);
             return $response;
         } catch (Exception $e) {
             $this->fail("Exception thrown: " . $e->getMessage());
         }
+    }
+
+    //////////////////////////// V2 /////////////////////////////////////////////////
+    public function testCancelV2VA()
+    {
+
+        $config = $this->configV2;
+        $timestamp = Helper::getFormattedTimestampV2();
+        $sampleVA = $this->generateNewVA();
+        $txId = $sampleVA->getTXid();
+        $reffNo = $sampleVA->getReferenceNo();
+
+        $requestBody = Cancel::builder()
+            ->setTimeStamp($timestamp)
+            ->setIMid($this->iMid)
+            ->setTXid($txId)
+            ->setReferenceNo($reffNo)
+            ->setMerchantToken($timestamp, $this->iMid, $txId, $this->amount, $this->merchantKey)
+            ->setPayMethod("02")
+            ->setCancelType("1")
+            ->setAmt($this->amount)
+            ->build();
+
+        try {
+
+            $v2VaService = new V2VAService($config);
+            $response = $v2VaService->cancel($requestBody);
+
+            $this->assertEquals("0000", $response->getResultCd());
+            $this->assertEquals("SUCCESS", $response->getResultMsg());
+        } catch (Exception $e) {
+            $this->fail("Test cancel V2 failed! exception thrown : " . $e->getMessage());
+        }
+    }
+
+    public function testCancelV2Card()
+    {
+
+        $config = $this->configV2;
+        $timestamp = Helper::getFormattedTimestampV2();
+        $txId = "SHOPEETEST01202410111242218557";
+        $reffNo = "ordCancel" . $timestamp;
+        $iMid = "SHOPEETEST";
+        $amount = "1000";
+
+        $requestBody = Cancel::builder()
+            ->setTimeStamp($timestamp)
+            ->setPayMethod("01")
+            ->setTXid($txId)
+            ->setIMid($iMid)
+            ->setMerchantToken($timestamp, $iMid, $txId, $amount, $this->merchantKey)
+            ->setReferenceNo($reffNo)
+            ->setAmt($amount)
+            ->setCancelType("2")
+            ->setCancelMsg("Cancelation of Card Trans with PHP Native")
+            ->setCancelUserIp("127.0.0.1")
+            ->setCancelUserId("")
+            ->setCancelUserInfo("")
+            ->setCancelRetryCnt("")
+            ->setWorker("")
+            ->build();
+
+        try {
+
+            $cardService = new V2CardService($config);
+            $response = $cardService->cancel($requestBody);
+
+            $this->assertEquals("0000", $response->getResultCd());
+            $this->assertEquals("SUCCESS", $response->getResultMsg());
+        } catch (Exception $e) {
+            $this->fail("Test cancel V2 failed! exception thrown : " . $e->getMessage());
+        }
+    }
+
+
+    public function testCancelV2CvS()
+    {
+
+        $config = $this->configV2;
+        $timestamp = Helper::getFormattedTimestampV2();
+        $newData = $this->registerNewCvxTrx();
+        $txId = $newData->getTXid();
+        $reffNo = $newData->getReferenceNo();
+        $iMid = TestConst::$IMID_CVS;
+        $amount = $newData->getAmt();
+
+        $parameter = Cancel::builder()
+            ->setTimeStamp($timestamp)
+            ->setTXid($txId)
+            ->setIMid($iMid)
+            ->setPayMethod("03")
+            ->setCancelType("1")
+            ->setCancelMsg("Cancelation of CvS Trans with PHP Native")
+            ->setMerchantToken($timestamp, $iMid, $txId, $amount, $this->merchantKey)
+            ->setAmt($amount)
+            ->build();
+
+        try {
+
+            $cvsService = new V2CvsService($config);
+            $response = $cvsService->cancel($parameter);
+
+            $this->assertEquals("0000", $response->getResultCd());
+            $this->assertEquals("SUCCESS", $response->getResultMsg());
+        } catch (Exception $e) {
+            $this->fail("Test cancel V2 CVS failed! exception thrown : " . $e->getMessage());
+        }
+    }
+
+    public function registerNewCvxTrx()
+    {
+
+        $config = $this->configV2;
+        $refNo = "ordCvsPhp" . $this->timestampv2;
+        $iMid = TestConst::$IMID_CVS;
+
+
+        $parameter = CvS::builder()
+            ->timeStamp($this->timestampv2)
+            ->iMid($iMid)
+            ->payMethod("03")
+            ->currency("IDR")
+            ->amt($this->amount)
+            ->referenceNo($refNo)
+            ->goodsNm("Test Transaction Cvs with native PHP")
+            ->billingNm("John Doe")
+            ->billingPhone("081214714045")
+            ->billingEmail("email@merchant.com")
+            ->billingAddr("Jalan Bukit Berbunga 22")
+            ->billingCity("Jakarta")
+            ->billingState("DKI Jakarta")
+            ->billingPostCd("12345")
+            ->billingCountry("Indonesia")
+            ->dbProcessUrl("https://ptsv2.com/t/test-nicepay-v2")
+            ->description("")
+            ->merchantToken($this->timestampv2, $iMid, $refNo, $this->amount, $this->merchantKey)
+            ->userIP("127.0.0.1")
+            ->mitraCd("ALMA")
+            ->cartData("{\"count\":\"1\",\"item\":[{\"img_url\":\"https://cdn.eraspace.com/pub/media/catalog/product/i/p/iphone_13_pro_max_silver_1_5.jpg\",\"goods_name\":\"iPhone13ProMax\",\"goods_detail\":\"1TB-White\",\"goods_amt\":\"" . $this->amount . "\"}]}")
+            ->payValidDt("")
+            ->payValidTm("")
+            ->build();
+
+        $cvsService = new V2CvsService($config);
+
+        return $cvsService->registration($parameter);
     }
 }

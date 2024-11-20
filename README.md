@@ -33,10 +33,15 @@ This library currently supports the following payment methods:
     - Reject
 
 ### V2 Version:
-- **Virtual Account**:
-    - Generate Virtual Account
+- **Virtual Account, Convenience Store**:
+    - Registration
     - Inquiry Status
     - Cancel
+- **Debit/Credit Card**
+    - Registration
+    - Inquiry Status
+    - Cancel
+    - Payment
 
 ### Additional Function
 - **Helper**
@@ -56,7 +61,7 @@ Add the repository details on your project composer.json
   "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/nicepay-dev/nativephp-nicepay"
+            "url": "https://github.com/nicepay-dev/php-nicepay"
         }
     ],
 }
@@ -194,16 +199,104 @@ $timestamp = Helper::getFormattedTimestampV2();
             ->setBillingCountry("Indonesia")
             ->build();
                 
-        $v2VaService = new V2VAService();
+        $v2VaService = new V2VAService($config);
 
         try {
-        $response = $v2VaService->generateVA($parameter, $config);
+        $response = $v2VaService->registration($parameter);
 
         } catch (NicepayError $e) {
             $this->assertTrue(true, "Exmessage: ception thrown: " . $e->getMessage());
         }
 
 ```
+#### 2.2.2.2 Payment Card
+
+```php
+        $config = NICEPay::builder()
+            ->setIsProduction(false) // Dev
+            ->build();
+
+        $parameter = Card::builder()
+        ->timeStamp($timestamp)
+        ->iMid($iMid)
+        ->tXid($tXid) // tXid transaction to do payment process
+        ->referenceNo($referenceNo)
+        ->merchantToken($timestamp, $iMid, $referenceNo, $amount, $merchantKey)
+        ->cardNo(TestConst::$CARD_NO) // CARD DATA
+        ->cardExpYymm(TestConst::$CARD_EXP_YYMM) // CARD DATA 
+        ->cardCvv(TestConst::$CARD_CVV) // CARD DATA
+        ->cardHolderNm("Nicepay test")
+        ->callBackUrl("https://x.com")
+        ->build();
+
+        try {
+
+            $cardService = new V2CardService($config);
+            $response = $cardService->payment($parameter);
+
+        } catch (Exception $exception) {
+            
+        }
+```
+The response will contain the HTML content, which should be rendered and processed on your front-end for the 3DS (3D Secure) flow.
+
+Sample HTML Response for 3DS Flow
+
+Here’s an example of the HTML response your front-end should handle. It contains an iframe for 3DS authentication, with the form automatically submitting to the 3DS method URL.
+
+```html
+
+<head>
+	<style>
+		body {min-width: 100%; height: auto; min-height: 500px; overflow: none; border: none; background: url("/nicepay/images/rotate.gif") no-repeat center;
+	</style>
+	</head>
+	<body onload='javascript:getBrowserInfo();'>
+		<div style='visibility:hidden'>
+			<div id="initiate3dsSimpleRedirect" xmlns="http://www.w3.org/1999/html"> <iframe id="methodFrame" name="methodFrame" height="100" width="200" > </iframe> <form id ="initiate3dsSimpleRedirectForm" method="POST" action="https://mtf.gateway.mastercard.com/acs/mastercard/v2/method" target="methodFrame"> <input type="hidden" name="threeDSMethodData" value="eyJ0aHJlZURTTWV0aG9kTm90aWZpY2F0aW9uVVJMIjoiaHR0cHM6Ly9tdGYuZ2F0ZXdheS5tYXN0ZXJjYXJkLmNvbS9jYWxsYmFja0ludGVyZmFjZS9nYXRld2F5LzNjMTlhMzU0NjgwMWU2ZDMwMTYwZWJiMDllMjAxYzg2NTU0MzZkMzRjYjgwOWFjNTIyMmMxMzIwZDFhMjI3ZDUiLCJ0aHJlZURTU2VydmVyVHJhbnNJRCI6ImM2YTI5MTllLTdlNWMtNDcyMi1hYmJlLTY5YmVlZDAyM2IzZiJ9" /> </form> <script id="initiate-authentication-script"> var e=document.getElementById("initiate3dsSimpleRedirectForm"); if (e) { e.submit(); if (e.parentNode !== null) { e.parentNode.removeChild(e); } } </script> </div> 
+		</div>
+		<form name="mpgsAuthFrm" id="mpgsAuthFrm" method="post" action='https://dev.nicepay.co.id/nicepay/api/mpgsAuth.do'>
+			<input type='hidden' name='tXid' value='TESTMPGS0501202409060047287070'>
+			<input type='hidden' name='cardNo' value='5123450000000008'>
+			<input type='hidden' name='cardExpYymm' value='2908'>
+			<input type='hidden' name='cardCvv' value='100'>
+			<input type='hidden' name='callbackUrl' value='https://dev.nicepay.co.id/IONPAY_CLIENT/paymentResult.jsp'>
+			<input type='hidden' name='registered' value='true'>
+			<input type='hidden' name='directV1' value='false'>
+			<input type='hidden' name='authResult' value='false'>
+			<input type='hidden' name='browser' value=''>
+			<input type='hidden' name='browserJavaEnabled' value='false'>
+			<input type='hidden' name='browserJavascriptEnabled' value='2'>
+			<input type='hidden' name='browserLanguage' value=''>
+			<input type='hidden' name='browserScreenColorDepth' value=''>
+			<input type='hidden' name='browserScreenHeight' value='0'>
+			<input type='hidden' name='browserScreenWidth' value='0'>
+			<input type='hidden' name='browserTimeZone' value='0'>
+		</form>
+	<script>
+		function getBrowserInfo() {
+			document.mpgsAuthFrm.browser.value = navigator.userAgent;
+			document.mpgsAuthFrm.browserJavaEnabled.value = window.navigator.javaEnabled() === true ? 'true' : 'false';
+			document.mpgsAuthFrm.browserJavascriptEnabled.value = "1"; 
+			document.mpgsAuthFrm.browserLanguage.value = navigator.language; 
+			document.mpgsAuthFrm.browserScreenColorDepth.value = screen.colorDepth; 
+			document.mpgsAuthFrm.browserScreenHeight.value = screen.height; 
+			document.mpgsAuthFrm.browserScreenWidth.value = screen.width; 
+			document.mpgsAuthFrm.browserTimeZone.value = new Date().getTimezoneOffset(); 
+			document.mpgsAuthFrm.submit(); 
+		}
+	</script>
+	</body>
+```
+##### Front-End Integration
+1. When the front-end receives the responseHtml, render it as an HTML page.
+2. The page will automatically post to the 3DS method URL, redirecting the user to a page where they can enter the OTP sent to their registered device.
+3. After completing the 3DS flow, the user is redirected back to your callback URL.
+
+Expected Result :
+
+Once the user completes the 3DS authentication, they will be redirected to your defined callbackUrl, where you can process the result.
+
 
 ### 2.2.3 Additional Function
 
@@ -231,7 +324,9 @@ Integration test are available
 - [Virtual Account Sample Functional Test](test/NicepayVirtualAccountTest.php)
 - [E-Wallet Sample Functional Test](test/NicepayEwalletTest.php)
 - [QRIS Sample Functional Test](test/NicepayQrisTest.php)
-- [Payout Sample Functional Test](test/NicepayPayourTest.php)
+- [Payout Sample Functional Test](test/NicepayPayoutTest.php)
+- [Card Sample Functional Test](test/NicepayCardTest.php)
+- [Convenience Store Sample Functional Test](test/NicepayCVSTest.php)
 - [Inquiry Status Sample Functional Test](test/NicepayInquiryStatusTest.php)
 - [Cancel / Refund Sample Functional Test](test/NicepayCancelTest.php)
 

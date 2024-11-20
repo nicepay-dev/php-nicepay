@@ -46,6 +46,8 @@ class NicepayResponse
     // QRIS
 
     private $qrContent;
+    private $qrUrl;
+    private $refundTime;
 
     // QRIS refund
     private $partnerRefundNo;
@@ -110,9 +112,10 @@ class NicepayResponse
 
         // Qris
         $this->qrContent = $builder->getQrContent();
-
+        $this->refundTime = $builder->getRefundTime();
         $this->partnerRefundNo = $builder->getPartnerRefundNo();
         $this->refundAmount = $builder->getRefundAmount();
+        $this->qrUrl = $builder->getQrUrl();
 
         // Payout
         $this->beneficiaryaccountNo = $builder->getBeneficiaryaccountNo();
@@ -176,7 +179,9 @@ class NicepayResponse
             ->setAccountNo($data['accountNo'] ?? null)
             ->setAccountInfos($data['accountInfos'] ?? [])
             ->setBeneficiaryCustomerResidence($data['beneficiaryCustomerResidence'] ?? null)
-            ->setBeneficiaryCustomerType($data['beneficiaryCustomerType'] ?? null);
+            ->setBeneficiaryCustomerType($data['beneficiaryCustomerType'] ?? null)
+            ->setQrUrl($data['qrUrl'] ?? null)
+            ->setRefundTime($data['refundTime'] ?? null);
 
         return new self($builder);
     }
@@ -328,6 +333,16 @@ class NicepayResponse
         return $this->qrContent;
     }
 
+    public function getQrUrl()
+    {
+        return $this->qrUrl;
+    }
+
+    public function getRefundTime()
+    {
+        return $this->refundTime;
+    }
+
     public function getPartnerRefundNo()
     {
         return $this->partnerRefundNo;
@@ -433,9 +448,10 @@ class NicepayResponseBuilder
 
     // QRIS
     private $qrContent;
-
+    private $qrUrl;
     private $partnerRefundNo;
     private $refundAmount;
+    private $refundTime;
 
     // PAYOUT
 
@@ -635,6 +651,17 @@ class NicepayResponseBuilder
         return $this;
     }
 
+    public function setQrUrl($qrUrl) :NicepayResponseBuilder{
+        $this -> qrUrl = $qrUrl;
+        return $this;
+    }
+
+    public function setRefundTime($refundTime):NicepayResponseBuilder 
+    {
+        $this -> refundTime = $refundTime;
+        return $this;
+    }
+
     public function setPartnerRefundNo($partnerRefundNo): NicepayResponseBuilder
     {
         $this->partnerRefundNo = $partnerRefundNo;
@@ -710,6 +737,14 @@ class NicepayResponseBuilder
 
     // Getters 
 
+    public function getQrUrl()
+    {
+        return $this->qrUrl;
+    }
+
+    public function getRefundTime(){
+        return $this -> refundTime;
+    }
     public function getResponseCode()
     {
         return $this->responseCode;

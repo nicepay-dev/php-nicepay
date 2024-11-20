@@ -23,6 +23,7 @@ class NicepayCons{
     private const REFUND_EWALLET_SNAP_ENDPOINT = "api/v1.0/debit/refund";
 
     private const CANCEL_V2_ENDPOINT = "direct/v2/cancel";
+    private const PAYMENT_V2_ENDPOINT = "direct/v2/payment";
 
     private const GENERATE_QRIS_ENDPOINT = "api/v1.0/qr/qr-mpm-generate";
     private const INQUIRY_STATUS_QRIS_ENDPOINT = "api/v1.0/qr/qr-mpm-query";
@@ -66,6 +67,10 @@ class NicepayCons{
 
     public static function getV2CancelEndpoint() {
         return self::CANCEL_V2_ENDPOINT;
+    }
+
+    public static function getV2PaymentEndpoint() {
+        return self::PAYMENT_V2_ENDPOINT;
     }
 
     public static function getPaymentEwalletEndpoint() {

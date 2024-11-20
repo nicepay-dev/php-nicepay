@@ -1,17 +1,13 @@
 <?php
 
-use Nicepay\service\v2\V2VAService;
+use test\TestConst;
 use PHPUnit\Framework\TestCase;
 use Nicepay\utils\Helper;
-use Nicepay\common\NICEPay;
-use test\TestConst;
-use Nicepay\service\snap\SnapVAService;
-use Nicepay\Data\Model\InquiryStatus;
-use Nicepay\common\NicepayError;
-use Nicepay\data\model\AccessToken;
-use Nicepay\service\snap\Snap;
-use Nicepay\service\snap\SnapEwalletService;
-use Nicepay\service\snap\SnapQrisService;
+use Nicepay\common\{NICEPay, NicepayError};
+use Nicepay\service\snap\{Snap, SnapVAService, SnapEwalletService, SnapQrisService};
+use Nicepay\service\v2\{V2VAService, V2CardService, V2CvsService};
+use Nicepay\data\model\{AccessToken, InquiryStatus};
+
 
 class NicepayInquiryStatusTest extends TestCase
 {
@@ -21,12 +17,18 @@ class NicepayInquiryStatusTest extends TestCase
     private $iMidTest;
     private $merchantKey;
 
+    private $v2Config;
+
     protected function setUp(): void
     {
         $this->clientSecret = TestConst::$CLIENT_SECRET;
         $this->iMidTest = TestConst::$IMID_TEST;
         $this->merchantKey = TestConst::$MERCHANT_KEY;
         $this->oldKeyFormat = TestConst::$KEY_OLD_FORMAT;
+
+        $this->v2Config = NICEPay::builder()
+            ->setIsProduction(false)
+            ->build();
     }
 
     public function testInquiryStatusVASnap()
@@ -64,41 +66,6 @@ class NicepayInquiryStatusTest extends TestCase
 
         $this->assertEquals("2002600", $response->getResponseCode());
         $this->assertEquals("Successful", $response->getResponseMessage());
-    }
-
-    // v2 
-
-    public function testInquiryStatusVAV2()
-    {
-
-        $timeStamp = Helper::getFormattedTimestampV2();
-        $reffNo = "ordNo20241019001604";
-        $amount = "100";
-
-        $config = NICEPay::builder()
-            ->setIsProduction(false)
-            ->build();
-
-        $parameter = InquiryStatus::builder()
-            ->setTimeStamp($timeStamp)
-            ->setTxId("IONPAYTEST02202410190016031872")
-            ->setIMid($this->iMidTest)
-            ->setMerchantToken($timeStamp, $this->iMidTest, $reffNo, $amount, $this->merchantKey)
-            ->setReferenceNo($reffNo)
-            ->setAmt($amount)
-            ->build();
-
-        try {
-
-            $v2VaService = new V2VAService();
-
-            $response = $v2VaService->inquiryStatus($parameter, $config);
-
-            $this->assertEquals("0000", $response->getResultCd());
-        } catch (NicepayError $e) {
-
-            $this->fail("Test Inquiry Status VA V2 Failed" . $e->getMessage());
-        }
     }
 
 
@@ -164,7 +131,7 @@ class NicepayInquiryStatusTest extends TestCase
         }
     }
 
-    public function testInquiryStatusQris()
+    public function testInquiryStatusSnapQris()
     {
 
         $timestamp = Helper::getFormattedDate();
@@ -196,6 +163,96 @@ class NicepayInquiryStatusTest extends TestCase
             $this->assertEquals("Successful", $response->getResponseMessage());
         } catch (Exception $e) {
             $this->fail("Inquiry Status Qris Test Failed, exception thrown : " . $e->getMessage());
+        }
+    }
+
+
+
+    
+
+    ///////////////////////////////////////// v2 ////////////////////////////////////////////////////
+
+    public function testInquiryStatusVAV2()
+    {
+
+        $timeStamp = Helper::getFormattedTimestampV2();
+        $reffNo = "ordNo20241019001604";
+        $amount = "100";
+
+        $config = $this->v2Config;
+
+        $parameter = InquiryStatus::builder()
+            ->setTimeStamp($timeStamp)
+            ->setTxId("IONPAYTEST02202410190016031872")
+            ->setIMid($this->iMidTest)
+            ->setMerchantToken($timeStamp, $this->iMidTest, $reffNo, $amount, $this->merchantKey)
+            ->setReferenceNo($reffNo)
+            ->setAmt($amount)
+            ->build();
+
+        try {
+
+            $v2VaService = new V2VAService($config);
+            $response = $v2VaService->inquiryStatus($parameter);
+
+            $this->assertEquals("0000", $response->getResultCd());
+        } catch (NicepayError $e) {
+
+            $this->fail("Test Inquiry Status VA V2 Failed" . $e->getMessage());
+        }
+    }
+
+    public function testInquiryStatusCardV2()
+    {
+
+        $timeStamp = Helper::getFormattedTimestampV2();
+        $reffNo = "ordNo20241115224020";
+        $amount = "10000";
+
+        $config = $this->v2Config;
+
+        $parameter = InquiryStatus::builder()
+            ->setTimeStamp($timeStamp)
+            ->setTxId("IONPAYTEST01202411152240334849")
+            ->setIMid($this->iMidTest)
+            ->setMerchantToken($timeStamp, $this->iMidTest, $reffNo, $amount, $this->merchantKey)
+            ->setReferenceNo($reffNo)
+            ->setAmt($amount)
+            ->build();
+
+        try {
+
+            $cardService = new V2CardService($config);
+            $response = $cardService->inquiryStatus($parameter);
+
+            $this->assertEquals("0000", $response->getResultCd());
+        } catch (NicepayError $e) {
+            $this->fail("Test Inquiry Status CARD V2 Failed" . $e->getMessage());
+        }
+    }
+
+    public function testInquiryStatusCvSV2()
+    {
+
+        $timeStamp = Helper::getFormattedTimestampV2();
+        $config = $this->v2Config;
+
+        $parameter = InquiryStatus::builder()
+            ->setTimeStamp($timeStamp)
+            ->setTxId("IONPAYTEST00202212091011228108")
+            ->setIMid($this->iMidTest)
+            ->setMerchantToken($timeStamp, $this->iMidTest, "ORDER20221012080918", "1", $this->merchantKey)
+            ->setReferenceNo("ORDER20221012080918")
+            ->setAmt("1")
+            ->build();
+
+        try {
+            $cvService = new V2CvSService($config);
+            $response = $cvService->inquiryStatus($parameter);
+
+            $this->assertEquals("0000", $response->getResultCd());
+        } catch (NicepayError $e) {
+            $this->fail("Test Inquiry Status CVS V2 Failed" . $e->getMessage());
         }
     }
 }

@@ -25,6 +25,50 @@ class NicepayV2Response
     private $reqDt;
     private $reqTm;
 
+    // CARD 
+
+    private $description;
+    private $cancelReferenceNo;
+    private $acquirerData;
+
+    // Convenience Store
+
+    private $payNo;
+    private $payValidDt;
+    private $payValidTm;
+    private $requestURL;    
+    private $mitraCd;
+    private $paymentExpDt;
+    private $paymentExpTm;
+
+    private $qrContent;
+    private $qrUrl;
+
+    private $iMid;
+    private $instmntMon;
+    private $instmntType;
+    private $status;
+    private $cardNo;
+    private $preauthToken;
+    private $acquBankCd;
+    private $issuBankCd;
+    private $receiptCode;
+    private $cancelAmt;
+    private $recurringToken;
+    private $ccTransType;
+    private $mRefNo;
+    private $acquStatus;
+    private $cardExpYymm;
+    private $acquBankNm;
+    private $issuBankNm;
+    private $depositDt;
+    private $depositTm;
+    private $paymentTrxSn;
+    private $cancelTrxSn;
+    private $userId;
+    private $shopId;
+   
+
     // Constructor
     function __construct(NicepayV2ResponseBuilder $builder)
     {
@@ -43,14 +87,255 @@ class NicepayV2Response
         $this->vacctNo = $builder->getVacctNo();
         $this->vacctValidDt = $builder->getVacctValidDt();
         $this->vacctValidTm = $builder->getVacctValidTm();
+
+        // Card
+        $this -> description = $builder -> getDescription();
+        $this -> cancelReferenceNo = $builder -> getCancelReferenceNo();
+        $this -> acquirerData = $builder -> getAcquirerData();
+
+        // Convenience Store
+        $this -> payNo = $builder -> getPayNo();
+        $this -> payValidDt = $builder -> getPayValidDt();
+        $this -> payValidTm = $builder -> getPayValidTm();
+        $this -> requestURL = $builder -> getRequestURL();
+        $this -> mitraCd = $builder -> getMitraCd();
+        $this -> paymentExpDt = $builder -> getPaymentExpDt();
+        $this -> paymentExpTm = $builder -> getPaymentExpTm();
+        $this -> qrContent = $builder -> getQrContent();
+        $this -> qrUrl = $builder -> getQrUrl();
+
+        $this -> reqDt = $builder -> getReqDt();
+        $this -> reqTm = $builder -> getReqTm();
+
+        $this -> iMid = $builder -> getIMid();
+        $this -> instmntMon = $builder -> getInstmntMon();
+        $this -> instmntType = $builder -> getInstmntType();
+        $this -> status = $builder -> getStatus();
+        $this -> cardNo = $builder -> getCardNo();
+        $this -> preauthToken = $builder -> getPreauthToken();
+        $this -> acquBankCd = $builder -> getAcquBankCd();
+        $this -> issuBankCd = $builder -> getIssuBankCd();
+        $this -> receiptCode = $builder -> getReceiptCode();
+        $this -> cancelAmt = $builder -> getCancelAmt();
+        $this -> recurringToken = $builder -> getRecurringToken();
+        $this -> ccTransType = $builder -> getCcTransType();
+        $this -> mRefNo = $builder -> getMRefNo();
+        $this -> acquStatus = $builder -> getAcquStatus();
+        $this -> cardExpYymm = $builder -> getCardExpYymm();
+        $this -> acquBankNm = $builder -> getAcquBankNm();
+        $this -> issuBankNm = $builder -> getIssuBankNm();
+        $this -> depositDt = $builder -> getDepositDt();
+        $this -> depositTm = $builder -> getDepositTm();
+        $this -> paymentTrxSn = $builder -> getPaymentTrxSn();
+        $this -> cancelTrxSn = $builder -> getCancelTrxSn();
+        $this -> userId = $builder -> getUserId();
+        $this -> shopId = $builder -> getShopId();
+
     }
 
     // Getter and Setter methods
 
+    public function getPayNo(){
+        return $this -> payNo;  
+
+    }
+
+    public function getPayValidDt(){
+        return $this -> payValidDt;
+    }
+
+    public function getPayValidTm(){
+        return $this -> payValidTm;
+    }
+
+    public function getRequestURL(){
+        return $this -> requestURL;
+    }
+
+    public function getMitraCd(){
+        return $this -> mitraCd;
+    }
+
+    public function getPaymentExpDt(){
+        return $this -> paymentExpDt;
+    }
+    public function getPaymentExpTm(){
+        return $this -> paymentExpTm;   
+    }
+
+    public function getQrContent(){
+        return $this -> qrContent;
+    }
+
+    public function getQrUrl(){
+        return $this -> qrUrl;
+    }
+    public function getDescription(){
+        return $this -> description;
+    }
+    public function getCancelReferenceNo(){
+        return $this -> cancelReferenceNo;
+    }
+
+    public function getAcquirerData(){
+        return $this -> acquirerData;
+    }
     public function getResultCd()
     {
         return $this->resultCd;
     }
+
+    public function getReqDt(){
+        return $this -> reqDt;
+    }
+
+    public function getReqTm(){
+        return $this -> reqTm;
+    }
+
+    public function getIMid(){
+        return $this -> iMid;
+    }
+
+    public function getInstmntMon(){
+        return $this -> instmntMon;
+    }
+
+    public function getInstmntType(){
+        return $this -> instmntType;
+
+    }
+
+    public function getStatus(){
+        return $this -> status;
+    }
+
+    public function getCardNo(){
+        return $this -> cardNo;
+    }
+
+    public function getPreauthToken(){
+        return $this -> preauthToken;
+    }
+
+    public function getAcquBankCd(){
+        return $this -> acquBankCd;
+    }
+
+    public function getIssuBankCd(){
+        return $this -> issuBankCd;
+    }
+
+    public function getReceiptCode(){
+        return $this -> receiptCode;
+    }
+
+    public function getCancelAmt(){
+        return $this -> cancelAmt;
+    }
+
+    public function getRecurringToken(){
+        return $this -> recurringToken;
+
+    }
+
+    public function getCcTransType(){
+        return $this -> ccTransType;
+    }
+
+    public function getMRefNo(){
+        return $this -> mRefNo;
+    }
+
+    public function getAcquStatus(){
+        return $this -> acquStatus;
+    }
+
+    public function getCardExpYymm(){
+        return $this -> cardExpYymm;
+    }
+
+    public function getAcquBankNm(){
+        return $this -> acquBankNm;
+    }
+
+    public function getIssuBankNm(){
+        return $this -> issuBankNm;
+    }
+
+    public function getDepositDt(){
+        return $this -> depositDt;
+    }
+
+    public function getDepositTm(){
+        return $this -> depositTm;
+    }
+
+    public function getPaymentTrxSn(){
+        return $this -> paymentTrxSn;
+    }
+
+    public function getCancelTrxSn(){
+        return $this -> cancelTrxSn;
+    }
+
+    public function getUserId(){
+        return $this -> userId;
+    }
+
+    public function getShopId(){
+        return $this -> shopId;
+    }
+
+
+
+    public function setPayNo($payNo): void
+    {
+        $this->payNo = $payNo;
+    }
+
+    public function setPayValidDt($payValidDt): void
+    {
+        $this->payValidDt = $payValidDt;
+    }
+
+    public function setPayValidTm($payValidTm): void
+    {
+        $this->payValidTm = $payValidTm;
+    }
+
+    public function setRequestURL($requestURL): void
+    {
+        $this->requestURL = $requestURL;
+    }
+
+    public function setMitraCd($mitraCd): void
+    {
+        $this->mitraCd = $mitraCd;
+    }
+
+    public function setPaymentExpDt($paymentExpDt): void
+    {
+        $this->paymentExpDt = $paymentExpDt;
+    }
+
+    public function setPaymentExpTm($paymentExpTm): void
+    {
+        $this->paymentExpTm = $paymentExpTm;    
+    }
+
+    public function setQrContent($qrContent): void
+    {
+        $this->qrContent = $qrContent;
+    }
+
+    public function setQrUrl($qrUrl): void
+    {
+        $this->qrUrl = $qrUrl;
+    }
+
+
+
 
     public function setResultCd($resultCd): void
     {
@@ -197,6 +482,15 @@ class NicepayV2Response
         $this->vacctValidTm = $vacctValidTm;
     }
 
+    public function setDescription($description){
+        $this -> description = $description;
+    }
+
+    public function setIMid($iMid){
+        $this -> iMid = $iMid;
+    }
+
+
     public static function fromArray(array $data): self
     {
         $builder = (new NicepayV2ResponseBuilder())
@@ -214,8 +508,45 @@ class NicepayV2Response
             ->setBankCd($data['bankCd'] ?? null)
             ->setVacctNo($data['vacctNo'] ?? null)
             ->setVacctValidDt($data['vacctValidDt'] ?? null)
-            ->setVacctValidTm($data['vacctValidTm'] ?? null);
-
+            ->setVacctValidTm($data['vacctValidTm'] ?? null)
+            ->setDescription($data['description'] ?? null)
+            ->setCancelReferenceNo($data['cancelReferenceNo'] ?? null)
+            ->setAcquirerData($data['acquirerData'] ?? [])
+            ->setPayno($data['payNo'] ?? null)
+            ->setPayValidDt($data['payValidDt'] ?? null)
+            ->setPayValidTm($data['payValidTm'] ?? null)
+            ->setRequestURL($data['requestURL'] ?? null)
+            ->setMitraCd($data['mitraCd'] ?? null)
+            ->setPaymentExpDt($data['paymentExpDt'] ?? null)
+            ->setPaymentExpTm($data['paymentExpTm'] ?? null)
+            ->setQrContent($data['qrContent'] ?? null)
+            ->setQrUrl($data['qrUrl'] ?? null)
+            ->setReqDt($data['reqDt'] ?? null)
+            ->setReqTm($data['reqTm'] ?? null)
+            ->setIMid($data['iMid'] ?? null)
+            ->setInstmntMon($data['instmntMon'] ?? null)
+            ->setInstmntType($data['instmntType'] ?? null)
+            ->setStatus($data['status'] ?? null)
+            ->setCardNo($data['cardNo'] ?? null)
+            ->setPreauthToken($data['preauthToken'] ?? null)
+            ->setAcquBankCd($data['acquBankCd'] ?? null)
+            ->setIssuBankCd($data['issuBankCd'] ?? null )
+            ->setReceiptCode($data['receiptCode'] ?? null)
+            ->setCancelAmt($data['cancelAmt'] ?? null)
+            ->setRecurringToken($data['recurringToken'] ?? null)
+            ->setCcTransType($data['ccTransType'] ?? null)
+            ->setMRefNo($data['mRefNo'] ?? null)
+            ->setAcquStatus($data['acquStatus'] ?? null)
+            ->setCardExpYymm($data['cardExpYymm'] ?? null)
+            ->setAcquBankNm($data['acquBankNm'] ?? null)
+            ->setIssuBankNm($data['issuBankNm'] ?? null)
+            ->setDepositDt($data['depositDt'] ?? null)
+            ->setDepositTm($data['depositTm'] ?? null)
+            ->setPaymentTrxSn($data['paymentTrxSn'] ?? null)
+            ->setCancelTrxSn($data['cancelTrxSn'] ?? null)
+            ->setUserId($data['userId'] ?? null)
+            ->setShopId($data['shopId'] ?? null);
+            
         // Return the constructed NicepayV2Response using the builder
         return new self($builder);
     }
@@ -239,6 +570,399 @@ class NicepayV2ResponseBuilder
     private $vacctNo;
     private $vacctValidDt;
     private $vacctValidTm;
+
+    // CC
+    private $description;
+    private $cancelReferenceNo;
+    private $acquirerData;
+
+    // Convenience Store
+
+    private $payNo;
+    private $payValidDt;
+    private $payValidTm;
+    private $requestURL;    
+    private $mitraCd;
+    private $paymentExpDt;
+    private $paymentExpTm;
+
+    private $qrContent;
+    private $qrUrl;
+
+    private $reqDt;
+    private $reqTm;
+
+    private $iMid;
+    private $instmntMon;
+    private $instmntType;
+    private $status;
+    private $cardNo;
+    private $preauthToken;
+    private $acquBankCd;
+    private $issuBankCd;
+    private $receiptCode;
+    private $cancelAmt;
+    private $recurringToken;
+    private $ccTransType;
+    private $mRefNo;
+    private $acquStatus;
+    private $cardExpYymm;
+    private $acquBankNm;
+    private $issuBankNm;
+    private $depositDt;
+    private $depositTm;
+    private $paymentTrxSn;
+    private $cancelTrxSn;
+    private $userId;
+    private $shopId;
+
+    public function getIMid(){
+        return $this -> iMid;
+    }
+
+    public function setIMid($iMid){
+        $this -> iMid = $iMid;
+        return $this;
+    }
+
+    public function getInstmntMon(){
+        return $this -> instmntMon;
+
+    }
+
+    public function setInstmntMon($instmntMon){
+        $this -> instmntMon = $instmntMon;
+        return $this;
+    }
+
+    public function getInstmntType(){
+        return $this -> instmntType;
+    }
+
+    public function setInstmntType($instmntType){
+        $this -> instmntType = $instmntType;
+        return $this;
+    }
+    public function getStatus(){
+        return $this -> status;
+
+    }
+    public function setStatus($status){
+        $this -> status = $status;
+        return $this;
+    }
+
+    public function getCardNo(){
+        return $this -> cardNo;
+
+    }
+
+    public function setCardNo($cardNo){
+        $this -> cardNo = $cardNo;
+        return $this;
+    }
+
+    public function getPreauthToken(){
+        return $this -> preauthToken;
+
+    }
+
+    public function setPreauthToken($preauthToken){
+        $this -> preauthToken = $preauthToken;
+        return $this;
+    }
+
+    public function getAcquBankCd(){
+        return $this -> acquBankCd;
+
+    }
+
+    public function setAcquBankCd($acquBankCd){
+        $this -> acquBankCd = $acquBankCd;
+        return $this;
+    }
+
+    public function getIssuBankCd(){
+        return $this -> issuBankCd;
+
+    }
+
+    public function setIssuBankCd($issuBankCd){
+        $this -> issuBankCd = $issuBankCd;
+        return $this;
+    }
+
+    public function getReceiptCode(){
+        return $this -> receiptCode;
+
+    }
+
+    public function setReceiptCode($receiptCode){
+        $this -> receiptCode = $receiptCode;
+        return $this;
+    }
+
+    public function getCancelAmt(){
+        return $this -> cancelAmt;
+
+    }
+
+    public function setCancelAmt($cancelAmt){
+        $this -> cancelAmt = $cancelAmt;
+        return $this;
+    }
+
+    public function getRecurringToken(){
+        return $this -> recurringToken;
+
+    }
+
+    public function setRecurringToken($recurringToken){
+        $this -> recurringToken = $recurringToken;
+        return $this;
+    }
+
+    public function getCcTransType(){
+        return $this -> ccTransType;
+
+    }
+
+    public function setCcTransType($ccTransType){
+        $this -> ccTransType = $ccTransType;
+        return $this;
+    }
+
+    public function getMRefNo(){
+        return $this -> mRefNo;
+
+    }
+
+    public function setMRefNo($mRefNo){
+        $this -> mRefNo = $mRefNo;
+        return $this;
+    }
+
+    public function getAcquStatus(){
+        return $this -> acquStatus;
+
+    }
+
+    public function setAcquStatus($acquStatus){
+        $this -> acquStatus = $acquStatus;
+        return $this;
+    }
+
+    public function getCardExpYymm(){
+        return $this -> cardExpYymm;
+
+    }
+
+    public function setCardExpYymm($cardExpYymm){
+        $this -> cardExpYymm = $cardExpYymm;
+        return $this;
+    }
+
+    public function getAcquBankNm(){
+        return $this -> acquBankNm;
+
+    }
+
+    public function setAcquBankNm($acquBankNm){
+        $this -> acquBankNm = $acquBankNm;
+        return $this;
+    }
+
+    public function getIssuBankNm(){
+        return $this -> issuBankNm;
+
+    }
+
+    public function setIssuBankNm($issuBankNm){
+        $this -> issuBankNm = $issuBankNm;
+        return $this;
+    }
+
+    public function getDepositDt(){
+        return $this -> depositDt;
+
+    }
+
+    public function setDepositDt($depositDt){
+        $this -> depositDt = $depositDt;
+        return $this;
+    }
+
+    public function getDepositTm(){
+        return $this -> depositTm;
+
+    }
+
+    public function setDepositTm($depositTm){
+        $this -> depositTm = $depositTm;
+        return $this;
+    }
+
+    public function getPaymentTrxSn(){
+        return $this -> paymentTrxSn;
+
+    }
+
+    public function setPaymentTrxSn($paymentTrxSn){
+        $this -> paymentTrxSn = $paymentTrxSn;
+        return $this;
+    }
+
+    public function getCancelTrxSn(){
+        return $this -> cancelTrxSn;    
+
+    }
+
+    public function setCancelTrxSn($cancelTrxSn){
+        $this -> cancelTrxSn = $cancelTrxSn;
+        return $this;
+    }
+
+    public function getUserId(){
+        return $this -> userId;
+    }
+
+    public function setUserId($userId){
+        $this -> userId = $userId;
+        return $this;
+    }
+
+    public function getShopId(){
+        return $this -> shopId;
+
+    }
+
+    public function setShopId($shopId){
+        $this -> shopId = $shopId;
+        return $this;
+    }
+
+
+    public function getReqDt(){
+        return $this -> reqDt;
+    }
+
+    public function setReqDt($reqDt){
+        $this -> reqDt = $reqDt;
+        return $this;
+    }
+
+    public function getReqTm(){
+        return $this -> reqTm;
+    }
+
+    public function setReqTm($reqTm){
+        $this -> reqTm = $reqTm;
+        return $this;
+    }
+    
+
+    public function getPayNo(){
+        return $this -> payNo;
+    }
+
+    public function setPayNo($payNo){
+        $this -> payNo = $payNo;
+        return $this;
+    }
+
+    public function getPayValidDt(){
+        return $this -> payValidDt;
+    }
+
+    public function setPayValidDt($payValidDt){
+        $this -> payValidDt = $payValidDt;
+        return $this;
+
+    }
+
+    public function getPayValidTm(){
+        return $this -> payValidTm;
+    }
+
+    public function setPayValidTm($payValidTm){
+        $this -> payValidTm = $payValidTm;
+        return $this;
+    }
+
+    public function getRequestURL(){
+        return $this -> requestURL;
+
+    }
+    public function setRequestURL($requestURL){
+        $this -> requestURL = $requestURL;
+        return $this;
+    }
+
+    public function getMitraCd(){
+        
+        return $this -> mitraCd;
+
+    }
+
+    public function setMitraCd($mitraCd){
+        $this -> mitraCd = $mitraCd;
+        return $this;
+    }
+
+    public function getPaymentExpDt(){
+        return $this -> paymentExpDt;
+    }
+
+    public function setPaymentExpDt($paymentExpDt){
+        $this -> paymentExpDt = $paymentExpDt;
+        return $this;
+    }
+
+    public function getPaymentExpTm(){
+        return $this -> paymentExpTm;
+    }
+
+    public function setPaymentExpTm($paymentExpTm){
+        $this -> paymentExpTm = $paymentExpTm;
+        return $this;
+    }
+
+    public function getQrContent(){
+        return $this -> qrContent;
+
+    }
+
+    public function setQrContent($qrContent){
+        $this -> qrContent = $qrContent;
+        return $this;
+    }
+
+    public function getQrUrl(){
+        return $this -> qrUrl;
+    }
+
+    public function setQrUrl($qrUrl){
+        $this -> qrUrl = $qrUrl;
+        return $this;
+    }
+    public function getCancelReferenceNo(){
+        return $this -> cancelReferenceNo;
+    }
+
+    public function setCancelReferenceNo($cancelReferenceNo){
+        $this -> cancelReferenceNo = $cancelReferenceNo;
+        return $this;
+    }
+    
+    public function getAcquirerData(){
+        return $this -> acquirerData;
+    }
+    
+
+    public function setAcquirerData($acquirerData){
+        $this -> acquirerData = $acquirerData;
+        return $this;
+    }
 
     public function getResultCd()
     {
@@ -405,6 +1129,14 @@ class NicepayV2ResponseBuilder
         return $this;
     }
 
+    public function getDescription(){
+        return $this -> description;
+    }
+
+    public function setDescription($description){
+        $this -> description = $description;
+        return $this;
+    }
     public function build(): NicepayV2Response
     {
         return new NicepayV2Response($this);

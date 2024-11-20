@@ -24,6 +24,15 @@ class Snap
     }
 
 
+    /**
+     * Sends a request to the Nicepay SNAP API to execute a transaction.
+     *
+     * @param mixed $parameter The request parameters to be sent in the transaction.
+     * @param string $endPoint The API endpoint for the transaction.
+     * @param string $accessToken The access token required for authorization.
+     * @param string $method The HTTP method to be used for the request (e.g., "POST").
+     * @return NicepayResponse The response from the Nicepay API.
+     */
     public function requestSnapTransaction($parameter, $endPoint, $accessToken, $method): NicepayResponse
     {
 
@@ -39,6 +48,12 @@ class Snap
     }
 
 
+    /**
+     * Sends a request to the Nicepay SNAP API to get an access token.
+     *
+     * @param AccessToken $parameter The request parameters to be sent in the transaction.
+     * @return NicepayResponse The response from the Nicepay API.
+     */
     public function requestSnapAccessToken(AccessToken $parameter): NicepayResponse
     {
 
