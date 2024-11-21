@@ -4,23 +4,36 @@ namespace test;
 
 class TestConst {
 
-    public static string $CLIENT_SECRET = "";
-    public static string $CLIENT_SECRET_NT = "";
-    public static string $CLIENT_SECRET_EW = "";
-    public static string $CLIENT_SECRET_QRIS = "";
-    public static string $IMID_EW = "";
-    public static string $KEY_OLD_FORMAT = '';
+    // Const GENERAL
     public static string $IMID_TEST = "";
-    public static string $IMID_QRIS = "";
-    public static string $IMID_CVS = "";
-    public static string $NORMALTEST = "";
-    public static string $MERCHANT_KEY = '';
-    
+
+    public static string $CLIENT_SECRET = "";
+    public static string $KEY_OLD_FORMAT = "";
+    public static string $MERCHANT_KEY = "";
     public static string $PUBLIC_KEY = '';
+    
+    // Const QRIS Test 
+    public static string $IMID_QRIS = "";
+    public static string $CLIENT_SECRET_QRIS = "";
+
+    // CONST NORMALTEST
+    public static string $CLIENT_SECRET_NT = "";
+    public static string $NORMALTEST = "";
+
+    // Const CVS 
+    public static string $IMID_CVS = "";
+
+    // Const Card
+    public static string $IMID_CARD = "";
 
     public static string $CARD_NO = "";
     public static string $CARD_CVV = "";
     public static string $CARD_EXP_YYMM = "";
 
-    public static string $IMID_CARD = "";
+
+    // Const Verify Test
+    public static string $SIGNATURE_TEST = "";
+    public static string $CLIENT_SECRET_EW = "";
+    public static string $IMID_EW = "";
+
 }

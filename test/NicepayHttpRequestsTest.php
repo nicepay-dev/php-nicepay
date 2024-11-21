@@ -33,7 +33,6 @@ class NicepayHttpRequestsTest extends TestCase
 
     public function testStart()
     {
-        echo "able to start test\n";
         $this->assertTrue(true, "Able to start test");
     }
 
@@ -44,7 +43,6 @@ class NicepayHttpRequestsTest extends TestCase
         $method = "POST";
         try {
             $response = $httpRequest->request($this->headers, $this->requestUrl, json_encode($this->body), $method, false, 1);
-            echo "able to http request\n";
 
             $this->assertEquals('2007300', $response['responseCode']);
             $this->assertEquals('Successful', $response['responseMessage']);
@@ -60,16 +58,10 @@ class NicepayHttpRequestsTest extends TestCase
 
         try {
             $response = $httpRequest->request($this->headers, $this->requestUrl, json_encode($this->body), "POST", false, null);
-            echo "able to http request with string\n";
 
             $this->assertEquals('2007300', $response['responseCode']);
             $this->assertEquals('Successful', $response['responseMessage']);
 
-            if ($response['responseCode'] === '2007300' && $response['responseMessage'] === 'Successful') {
-                echo "Test passed.\n";
-            } else {
-                $this->fail("Test Failed, response code : " . $response['responseCode']);
-            }
         } catch (Exception $e) {
             $this->fail('Test Failed, error thrown :' . $e->getMessage());
         }
@@ -82,18 +74,13 @@ class NicepayHttpRequestsTest extends TestCase
         try {
             $httpRequest->request($this->headers, "https://httpstat.us/503?sleep=15100", $this->body, "POST", false, null);
 
-            echo "Test failed - request should have timed out.\n";
             $this->assertTrue(false, "Test failed");
         } catch (NicepayError $e) {
 
             if (strpos($e->getMessage(), 'timed out') !== false) {
-                echo "should timeout after 15 seconds\n";
-                echo "Test passed.\n";
-                $this->assertTrue(true, "Test passed");
+                $this->assertTrue(true, "Test Failed, error thrown : ".$e->getMessage());
             } else {
-                echo 'Error: ' . $e->getMessage() . "\n";
-                echo "Test failed.\n";
-                $this->assertTrue(false, "Test failed");
+                $this->assertTrue(false, "Test failed, error thrown : ".$e->getMessage());
             }
         }
     }
@@ -107,12 +94,10 @@ class NicepayHttpRequestsTest extends TestCase
         try {
             $httpRequest->request([], "", [], "POST", false, null);
         } catch (Exception $e) {
-            echo "able to get error not from request\n";
             if (is_string($e->getMessage())) {
-                echo "Test passed.\n";
-                $this->assertTrue(true, "test passed");
+                $this->assertTrue(true, "Test Failed, error thrown : ".$e->getMessage());
             } else {
-                $this->assertTrue(false, "Test Failed");
+                $this->assertTrue(false, "Test Failed, error thrown : ".$e->getMessage());
             }
         }
     }
@@ -138,5 +123,19 @@ class NicepayHttpRequestsTest extends TestCase
 
 
         return $headers;
+    }
+
+    public function testRetryWith504Response()
+    {
+        $requestUrl = 'https://httpstat.us/504?sleep=1000';
+
+        $httpRequest = new HttpRequest();
+
+        try {
+            $response = $httpRequest->request([], $requestUrl, '', 'GET', true, 5);
+            $this->assertTrue(false, "Test response 504 Failed, get success response instead");
+        } catch (NICEPayError $e) {
+            $this->assertTrue(true, "Error Success");
+        }
     }
 }

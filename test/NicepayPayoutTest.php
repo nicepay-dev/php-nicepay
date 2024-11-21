@@ -9,25 +9,24 @@ use test\TestConst;
 use Nicepay\data\model\{Payout, AccessToken};
 use Nicepay\service\snap\{Snap, SnapPayoutService};
 use Nicepay\common\{NICEPay, NicepayError};
-use Nicepay\data\response\NicepayResponse;
 
 class NicepayPayoutTest extends TestCase
 {
 
     private $config;
     private $configSample;
-    private $configApprove;
     private $timestamp;
 
     public function setUp(): void
     {
 
         $this->timestamp = Helper::getFormattedDate();
+
         $this->config = NICEPay::builder()
             ->setIsProduction(false)
-            ->setClientSecret(TestConst::$CLIENT_SECRET)
-            ->setPartnerId(TestConst::$IMID_TEST)
-            ->setExternalID("ExtIdPO" . Helper::getFormattedTimestampV2())
+            ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
+            ->setPartnerId(TestConst::$NORMALTEST)
+            ->setExternalID("NTPo" . Helper::getFormattedTimestampV2())
             ->setTimestamp($this->timestamp)
             ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
             ->build();
@@ -40,36 +39,27 @@ class NicepayPayoutTest extends TestCase
             ->setTimestamp($this->timestamp)
             ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
             ->build();
-
-        $this->configApprove = NICEPay::builder()
-            ->setIsProduction(false)
-            ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
-            ->setPartnerId(TestConst::$NORMALTEST)
-            ->setExternalID("NTPoApp" . Helper::getFormattedTimestampV2())
-            ->setTimestamp($this->timestamp)
-            ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
-            ->build();
     }
 
     public function testRegistrationPayoutSnap()
     {
         $config = $this->config;
         $requestBody = Payout::builder()
-            ->merchantId(TestConst::$IMID_TEST)
-            ->beneficiaryAccountNo("5345000060")
-            ->beneficiaryName("IONPAY NETWORKS")
+            ->merchantId($config->getPartnerId())
+            ->beneficiaryAccountNo("1040004380536")
+            ->beneficiaryName("Test PHP Native")
             ->beneficiaryPhone("08123456789")
             ->beneficiaryCustomerResidence("1")
             ->beneficiaryCustomerType("1")
             ->beneficiaryPostalCode("123456")
-            ->payoutMethod('1')
+            ->payoutMethod('0')
             ->beneficiaryBankCode('CENA')
-            ->amount("123456789.00", "IDR")
+            ->amount("10000.00", "IDR")
             ->partnerReferenceNo("ordRefP" . Helper::getFormattedTimestampV2())
             ->description("Test Regist Payour PHP Native")
             ->deliveryName("Ciki")
             ->deliveryId('1234567890234512')
-            ->reservedDt("20241101")
+            ->reservedDt("20241120")
             ->reservedTm('172334')
             ->build();
 
@@ -91,7 +81,15 @@ class NicepayPayoutTest extends TestCase
     public function testApprovePayoutSnap()
     {
 
-        $config = $this->configApprove;
+        $config = NICEPay::builder()
+            ->setIsProduction(false)
+            ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
+            ->setPartnerId(TestConst::$NORMALTEST)
+            ->setExternalID("NTPoApp" . Helper::getFormattedTimestampV2())
+            ->setTimestamp($this->timestamp)
+            ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
+            ->build();
+
         $sample = self::getSampleData();
         $accessToken = self::getAccessToken($config);
 
@@ -115,12 +113,19 @@ class NicepayPayoutTest extends TestCase
     public function testCheckBalanceSnap()
     {
 
-        $config = $this->configApprove;
+        $config = NICEPay::builder()
+            ->setIsProduction(false)
+            ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
+            ->setPartnerId(TestConst::$NORMALTEST)
+            ->setExternalID("NTPoApp" . Helper::getFormattedTimestampV2())
+            ->setTimestamp($this->timestamp)
+            ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
+            ->build();
 
         $accessToken = $this->getAccessToken($config);
 
         $requestBody = Payout::builder()
-            ->accountNo("NORMALTEST")
+            ->accountNo(TestConst::$NORMALTEST)
             ->additionalInfo(
                 [
                     "msId" => "",
@@ -157,7 +162,7 @@ class NicepayPayoutTest extends TestCase
             ->description("Test Regist Payour PHP Native")
             ->deliveryName("Ciki")
             ->deliveryId('1234567890234512')
-            ->reservedDt("20241101")
+            ->reservedDt("20241120")
             ->reservedTm('172334')
             ->build();
 

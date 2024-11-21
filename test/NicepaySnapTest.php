@@ -6,9 +6,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 use Nicepay\service\snap\Snap;
-use Nicepay\common\NICEPay;
+use Nicepay\common\{NICEPay, NicepayError};
 use Nicepay\data\model\{AccessToken, VirtualAccount};
-use Nicepay\common\NicepayError;
 use Nicepay\utils\Helper;
 
 use test\TestConst;

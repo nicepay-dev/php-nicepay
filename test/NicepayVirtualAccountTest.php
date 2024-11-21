@@ -8,7 +8,6 @@ use Nicepay\service\v2\V2VAService;
 use Nicepay\utils\{Helper};
 use Nicepay\common\{NICEPay, NicepayError};
 use Nicepay\data\model\{VirtualAccount, AccessToken, InquiryStatus};
-use Nicepay\common\HttpRequest;
 
 use test\TestConst;
 
@@ -192,16 +191,5 @@ class NicepayVirtualAccountTest extends TestCase
         return $response->getAccessToken();
     }
 
-    public function testRetryWith504Response()
-    {
-        $requestUrl = 'https://httpstat.us/504?sleep=1000';
-
-        $httpRequest = new HttpRequest();
-
-        try {
-            $response = $httpRequest->request([], $requestUrl, '', 'GET', true, 5);
-        } catch (NICEPayError $e) {
-            $this->assertTrue(true, "Error Success");
-        }
-    }
+    
 }

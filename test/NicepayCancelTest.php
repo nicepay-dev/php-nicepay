@@ -54,23 +54,8 @@ class NicepayCancelTest extends TestCase
             ->build();
     }
 
-    public function getAccessToken($config)
-    {
 
-        // $config = $this -> configSnap;
-        $request = AccessToken::builder()
-            ->setGrantType("client_credentials")
-            ->setAdditionalInfo([])
-            ->build();
-
-        $snap = new Snap($config);
-        $response = $snap->requestSnapAccessToken($request);
-
-        return $response->getAccessToken();
-    }
-
-
-    public function testCancelSnap()
+    public function testCancelSnapVA()
     {
 
         $config = $this->configSnap;
@@ -249,113 +234,6 @@ class NicepayCancelTest extends TestCase
         }
     }
 
-
-    private function approvePayoutSnap(NicepayResponse $payoutData, $accessToken)
-    {
-
-        $config = NICEPay::builder()
-            ->setIsProduction(false)
-            ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
-            ->setPartnerId(TestConst::$NORMALTEST)
-            ->setExternalID("approvePOc" . Helper::getFormattedTimestampV2())
-            ->setTimestamp($this->timestamp)
-            ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
-            ->build();;
-
-        $requestBody = Payout::builder()
-            ->merchantId(TestConst::$NORMALTEST)
-            ->originalReferenceNo($payoutData->getOriginalReferenceNo())
-            ->originalPartnerReferenceNo($payoutData->getPartnerReferenceNo())
-            ->build();
-
-        try {
-            $payoutService = new SnapPayoutService($config);
-            $response = $payoutService->approve($requestBody, $accessToken);
-        } catch (Exception $e) {
-            throw new NicepayError("Failed test registration failed , exception thrown :" . $e->getMessage());
-        }
-    }
-
-    private function registNewPayout($accessToken)
-    {
-
-        $config = NICEPay::builder()
-            ->setIsProduction(false)
-            ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
-            ->setPartnerId(TestConst::$NORMALTEST)
-            ->setExternalID("RegPO" . Helper::getFormattedTimestampV2())
-            ->setTimestamp($this->timestamp)
-            ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
-            ->build();
-
-        $requestBody = Payout::builder()
-            ->merchantId(TestConst::$NORMALTEST)
-            ->beneficiaryAccountNo("1040004380536")
-            ->beneficiaryName("Test PHP Native")
-            ->beneficiaryPhone("08123456789")
-            ->beneficiaryCustomerResidence("1")
-            ->beneficiaryCustomerType("1")
-            ->beneficiaryPostalCode("123456")
-            ->payoutMethod('0')
-            ->beneficiaryBankCode('CENA')
-            ->amount("10000.00", "IDR")
-            ->partnerReferenceNo("ordRefP" . Helper::getFormattedTimestampV2())
-            ->description("Test Regist Payour PHP Native")
-            ->deliveryName("Ciki")
-            ->deliveryId('1234567890234512')
-            ->reservedDt("20241104")
-            ->reservedTm('215334')
-            ->build();
-
-        $payoutService = new SnapPayoutService($config);
-        $response = $payoutService->registration($requestBody, $accessToken);
-
-        return $response;
-    }
-
-    public function generateNewVA()
-    {
-
-        $timestamp = Helper::getFormattedTimestampV2();
-        $config = $this->configV2;
-
-        $reffNo = "ordNo" . $timestamp;
-
-        $parameter = VirtualAccount::builder()
-            ->setTimeStamp($timestamp)
-            ->setIMid($this->iMid)
-            ->setPayMethod("02")
-            ->setCurrency("IDR")
-            ->setBankCd("CENA")
-            ->setAmt($this->amount)
-            ->setReferenceNo($reffNo)
-            ->setMerchantToken($timestamp, $this->iMid, $reffNo, $this->amount, $this->merchantKey)
-            ->setVacctValidDt("20251004")
-            ->setVacctValidTm("101010")
-            ->setMerFixAcctId("")
-            ->setDbProcessUrl("https://webhook.site/7c2d47f6-557b-4b85-b91a-ad3b6182b10c")
-            ->setGoodsNm("GENERATE FOR CANCEL TEST")
-            ->setCartData("{}")
-            ->setBillingNm("Nicepay php native")
-            ->setBillingPhone("081534567890")
-            ->setBillingEmail("nicepay@example.com")
-            ->setBillingAddr("Jln. Raya Kasablanka Kav.88")
-            ->setBillingCity("South Jakarta")
-            ->setBillingState("DKI Jakarta")
-            ->setBillingPostCd("15119")
-            ->setBillingCountry("Indonesia")
-            ->build();
-
-        $v2VaService = new V2VAService($config);
-
-        try {
-            $response = $v2VaService->registration($parameter);
-            return $response;
-        } catch (Exception $e) {
-            $this->fail("Exception thrown: " . $e->getMessage());
-        }
-    }
-
     //////////////////////////// V2 /////////////////////////////////////////////////
     public function testCancelV2VA()
     {
@@ -460,6 +338,130 @@ class NicepayCancelTest extends TestCase
             $this->assertEquals("SUCCESS", $response->getResultMsg());
         } catch (Exception $e) {
             $this->fail("Test cancel V2 CVS failed! exception thrown : " . $e->getMessage());
+        }
+    }
+
+
+    ///////////////////////// helper function ///////////////////////
+
+    public function getAccessToken($config)
+    {
+
+        // $config = $this -> configSnap;
+        $request = AccessToken::builder()
+            ->setGrantType("client_credentials")
+            ->setAdditionalInfo([])
+            ->build();
+
+        $snap = new Snap($config);
+        $response = $snap->requestSnapAccessToken($request);
+
+        return $response->getAccessToken();
+    }
+
+    private function approvePayoutSnap(NicepayResponse $payoutData, $accessToken)
+    {
+
+        $config = NICEPay::builder()
+            ->setIsProduction(false)
+            ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
+            ->setPartnerId(TestConst::$NORMALTEST)
+            ->setExternalID("approvePOc" . Helper::getFormattedTimestampV2())
+            ->setTimestamp($this->timestamp)
+            ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
+            ->build();;
+
+        $requestBody = Payout::builder()
+            ->merchantId(TestConst::$NORMALTEST)
+            ->originalReferenceNo($payoutData->getOriginalReferenceNo())
+            ->originalPartnerReferenceNo($payoutData->getPartnerReferenceNo())
+            ->build();
+
+        try {
+            $payoutService = new SnapPayoutService($config);
+            $response = $payoutService->approve($requestBody, $accessToken);
+        } catch (Exception $e) {
+            throw new NicepayError("Failed test registration failed , exception thrown :" . $e->getMessage());
+        }
+    }
+
+    private function registNewPayout($accessToken)
+    {
+
+        $config = NICEPay::builder()
+            ->setIsProduction(false)
+            ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
+            ->setPartnerId(TestConst::$NORMALTEST)
+            ->setExternalID("RegPO" . Helper::getFormattedTimestampV2())
+            ->setTimestamp($this->timestamp)
+            ->setPrivateKey(TestConst::$KEY_OLD_FORMAT)
+            ->build();
+
+        $requestBody = Payout::builder()
+            ->merchantId(TestConst::$NORMALTEST)
+            ->beneficiaryAccountNo("1040004380536")
+            ->beneficiaryName("Test PHP Native")
+            ->beneficiaryPhone("08123456789")
+            ->beneficiaryCustomerResidence("1")
+            ->beneficiaryCustomerType("1")
+            ->beneficiaryPostalCode("123456")
+            ->payoutMethod('0')
+            ->beneficiaryBankCode('CENA')
+            ->amount("10000.00", "IDR")
+            ->partnerReferenceNo("ordRefP" . Helper::getFormattedTimestampV2())
+            ->description("Test Regist Payour PHP Native")
+            ->deliveryName("Ciki")
+            ->deliveryId('1234567890234512')
+            ->reservedDt("20241104")
+            ->reservedTm('215334')
+            ->build();
+
+        $payoutService = new SnapPayoutService($config);
+        $response = $payoutService->registration($requestBody, $accessToken);
+
+        return $response;
+    }
+
+    public function generateNewVA()
+    {
+
+        $timestamp = Helper::getFormattedTimestampV2();
+        $config = $this->configV2;
+
+        $reffNo = "ordNo" . $timestamp;
+
+        $parameter = VirtualAccount::builder()
+            ->setTimeStamp($timestamp)
+            ->setIMid($this->iMid)
+            ->setPayMethod("02")
+            ->setCurrency("IDR")
+            ->setBankCd("CENA")
+            ->setAmt($this->amount)
+            ->setReferenceNo($reffNo)
+            ->setMerchantToken($timestamp, $this->iMid, $reffNo, $this->amount, $this->merchantKey)
+            ->setVacctValidDt("20251004")
+            ->setVacctValidTm("101010")
+            ->setMerFixAcctId("")
+            ->setDbProcessUrl("https://webhook.site/7c2d47f6-557b-4b85-b91a-ad3b6182b10c")
+            ->setGoodsNm("GENERATE FOR CANCEL TEST")
+            ->setCartData("{}")
+            ->setBillingNm("Nicepay php native")
+            ->setBillingPhone("081534567890")
+            ->setBillingEmail("nicepay@example.com")
+            ->setBillingAddr("Jln. Raya Kasablanka Kav.88")
+            ->setBillingCity("South Jakarta")
+            ->setBillingState("DKI Jakarta")
+            ->setBillingPostCd("15119")
+            ->setBillingCountry("Indonesia")
+            ->build();
+
+        $v2VaService = new V2VAService($config);
+
+        try {
+            $response = $v2VaService->registration($parameter);
+            return $response;
+        } catch (Exception $e) {
+            $this->fail("Exception thrown: " . $e->getMessage());
         }
     }
 

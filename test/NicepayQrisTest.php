@@ -41,9 +41,9 @@ class NicepayQrisTest extends TestCase
         $requestBody = Qris::builder()
         ->partnerReferenceNo("ordNo".Helper::getFormattedTimestampV2())
         ->amount("100.00", "IDR")
-        ->merchantId("TNICEQR081")
+        ->merchantId($this->iMid)
         ->storeId("NicepayStoreID1")
-        ->validityPeriod("2024-10-30T18:50:00+07:00")
+        ->validityPeriod("2024-11-20T14:40:00+07:00")
         ->additionalInfo(
             "Test SNAP Transaction Nicepay",
             "John Doe",
