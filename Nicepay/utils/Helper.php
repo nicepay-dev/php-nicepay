@@ -5,6 +5,7 @@ namespace Nicepay\utils;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use DateInterval;
 use Nicepay\common\NicepayError;
 
 class Helper
@@ -126,26 +127,48 @@ class Helper
      * @return boolean - true if signature is valid, false if not
      * @throws NicepayError - throws an exception if public key is invalid
      */
-    public static function verifySHA256RSA($stringToSign, $publicKeyString, $signatureString) {
+    public static function verifySHA256RSA($stringToSign, $publicKeyString, $signatureString)
+    {
         $isVerified = false;
         try {
             // Decode the public key and signature from base64
             $publicKey = openssl_pkey_get_public("-----BEGIN PUBLIC KEY-----\n" . wordwrap($publicKeyString, 64, "\n", true) . "\n-----END PUBLIC KEY-----");
             $signature = base64_decode($signatureString);
             $stringToSignBytes = $stringToSign;
-    
+
             if (!$publicKey) {
                 throw new NicepayError("Invalid public key format.");
             }
-    
+
             // Verify the signature using SHA256 with RSA
             $isVerified = openssl_verify($stringToSignBytes, $signature, $publicKey, OPENSSL_ALGO_SHA256) === 1;
-    
         } catch (Exception $e) {
             echo "Error Verifying Signature: " . $e->getMessage();
         }
-    
+
         return $isVerified;
     }
-    
+
+    /**
+     * Get a custom timestamp with the specified format and additional minutes
+     * 
+     * @param string $format - the required format of the timestamp
+     * @param int $additionalMinutes - the additional minutes to add to the current time
+     * 
+     * @return string - the custom timestamp in the specified format
+     */
+    public static function getCustomTimeStamp($format, $additionalMinutes)
+    {
+
+        $timezone = new DateTimeZone('Asia/Jakarta');
+
+        $date = new DateTime('now', $timezone);
+
+        // Add additional minutes
+        $date->add(new DateInterval('PT' . $additionalMinutes . 'M'));
+
+        // Format the date in the required format
+        $formattedDate = $date->format($format);
+        return $formattedDate;
+    }
 }

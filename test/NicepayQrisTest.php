@@ -43,7 +43,7 @@ class NicepayQrisTest extends TestCase
         ->amount("100.00", "IDR")
         ->merchantId($this->iMid)
         ->storeId("NicepayStoreID1")
-        ->validityPeriod("2024-11-20T14:40:00+07:00")
+        ->validityPeriod(Helper::getCustomTimeStamp('Y-m-d\TH:i:sP', 15))
         ->additionalInfo(
             "Test SNAP Transaction Nicepay",
             "John Doe",

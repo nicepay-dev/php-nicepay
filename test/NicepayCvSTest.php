@@ -69,5 +69,5 @@ class NicepayCvSTest extends TestCase {
         }
 
     }
-/******  7b0f56b9-2330-4360-a719-833a3b6b6367  *******/
+
 }

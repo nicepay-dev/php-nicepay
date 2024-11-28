@@ -16,9 +16,15 @@ class NicepayPayoutTest extends TestCase
     private $config;
     private $configSample;
     private $timestamp;
+    private $reservedDt;
+    private $reservedTm;
 
     public function setUp(): void
     {
+
+        $reservedTimeStamp = Helper::getCustomTimeStamp("YmdHis", "70");
+        $this->reservedDt = substr($reservedTimeStamp, 0, 8);
+        $this->reservedTm = substr($reservedTimeStamp, 8, 6);
 
         $this->timestamp = Helper::getFormattedDate();
 
@@ -46,21 +52,21 @@ class NicepayPayoutTest extends TestCase
         $config = $this->config;
         $requestBody = Payout::builder()
             ->merchantId($config->getPartnerId())
-            ->beneficiaryAccountNo("1040004380536")
+            ->beneficiaryAccountNo("888801000157508")
             ->beneficiaryName("Test PHP Native")
             ->beneficiaryPhone("08123456789")
             ->beneficiaryCustomerResidence("1")
             ->beneficiaryCustomerType("1")
             ->beneficiaryPostalCode("123456")
             ->payoutMethod('0')
-            ->beneficiaryBankCode('CENA')
+            ->beneficiaryBankCode('BRIN')
             ->amount("10000.00", "IDR")
             ->partnerReferenceNo("ordRefP" . Helper::getFormattedTimestampV2())
-            ->description("Test Regist Payour PHP Native")
+            ->description("Test Regist PayouT PHP Native")
             ->deliveryName("Ciki")
             ->deliveryId('1234567890234512')
-            ->reservedDt("20241120")
-            ->reservedTm('172334')
+            ->reservedDt($this->reservedDt)
+            ->reservedTm($this->reservedTm)
             ->build();
 
         $accessToken = self::getAccessToken($config);
@@ -162,8 +168,8 @@ class NicepayPayoutTest extends TestCase
             ->description("Test Regist Payour PHP Native")
             ->deliveryName("Ciki")
             ->deliveryId('1234567890234512')
-            ->reservedDt("20241120")
-            ->reservedTm('172334')
+            ->reservedDt($this->reservedDt)
+            ->reservedTm( $this->reservedTm)
             ->build();
 
         $accessToken = self::getAccessToken($config);

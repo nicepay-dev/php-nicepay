@@ -22,12 +22,12 @@ class NicepayEwalletTest extends TestCase
     public function setUp(): void
     {
 
-        $this->iMid = TestConst::$IMID_TEST;
+        $this->iMid = TestConst::$IMID_EW;
         $this->timestamp = Helper::getFormattedDate();
 
         $this->configSnap = NICEPay::builder()
             ->setIsProduction(false)
-            ->setClientSecret(TestConst::$CLIENT_SECRET)
+            ->setClientSecret(TestConst::$CLIENT_SECRET_EW)
             ->setPartnerId($this->iMid)
             ->setExternalID("PaymentEwallet" . $this->timestamp)
             ->setTimestamp($this->timestamp)
@@ -60,7 +60,7 @@ class NicepayEwalletTest extends TestCase
     {
         $requestBody = Ewallet::builder()
             ->partnerReferenceNo("ordNo" . $this->timestamp)
-            ->merchantId(TestConst::$IMID_TEST)
+            ->merchantId(TestConst::$IMID_EW)
             ->subMerchantId("")
             ->externalStoreId("")
             ->validUpTo("")
@@ -75,7 +75,11 @@ class NicepayEwalletTest extends TestCase
                     "dbProcessUrl" => "http://ptsv2.com/t/dbProcess/post",
                     "callBackUrl" => "https://www.nicepay.co.id/IONPAY_CLIENT/paymentResult.jsp",
                     "msId" => "data",
-                    "cartData" => "{\"count\":\"2\",\"item\":[{\"img_url\":\"http://img.aaa.com/ima1.jpg\",\"goods_name\":\"Item 1 Name\",\"goods_detail\":\"Item 1 Detail\",\"goods_amt\":\"0.00\",\"goods_quantity\":\"1\"},{\"img_url\":\"http://img.aaa.com/ima2.jpg\",\"goods_name\":\"Item 2 Name\",\"goods_detail\":\"Item 2 Detail\",\"goods_amt\":\"1.00\",\"goods_quantity\":\"1\"}]}"
+                    "cartData" => "{\"count\":\"2\",\"item\":[{\"img_url\":\"http://img.aaa.com/ima1.jpg\",\"goods_name\":\"Item 1 Name\",\"goods_detail\":\"Item 1 Detail\",\"goods_amt\":\"0.00\",\"goods_quantity\":\"1\"},{\"img_url\":\"http://img.aaa.com/ima2.jpg\",\"goods_name\":\"Item 2 Name\",\"goods_detail\":\"Item 2 Detail\",\"goods_amt\":\"1.00\",\"goods_quantity\":\"1\"}]}",
+                    "mbFee" => "2000",
+                    "mbFeeType" => "2",
+                    "msFee" => "2000",
+                    "msFeeType" => "2"
                 ]
             )
             ->urlParam([

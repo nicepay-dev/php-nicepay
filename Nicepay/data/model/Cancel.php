@@ -117,7 +117,7 @@ class Cancel
             'refundAmount' => $this->refundAmount,
             'partnerRefundNo' => $this->partnerRefundNo,
             'reason' => $this->reason,
-            'totalAmount' => $this->totalAmount,
+            'totalAmount' =>  empty($this->totalAmount) ? (object) [] : $this->totalAmount,
         ];
     }
 

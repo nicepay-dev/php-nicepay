@@ -4,7 +4,7 @@ use test\TestConst;
 use PHPUnit\Framework\TestCase;
 use Nicepay\utils\Helper;
 use Nicepay\common\{NICEPay, NicepayError};
-use Nicepay\service\snap\{Snap, SnapVAService, SnapEwalletService, SnapQrisService};
+use Nicepay\service\snap\{Snap, SnapVAService, SnapEwalletService, SnapPayoutService, SnapQrisService};
 use Nicepay\service\v2\{V2VAService, V2CardService, V2CvsService};
 use Nicepay\data\model\{AccessToken, InquiryStatus};
 
@@ -166,6 +166,41 @@ class NicepayInquiryStatusTest extends TestCase
         }
     }
 
+    public function testInquiryStatusPayoutSnap()
+    {
+
+        $timestamp = Helper::getFormattedDate();
+
+        $config = NICEPay::builder()
+            ->setIsProduction(false)
+            ->setPrivateKey($this->oldKeyFormat)
+            ->setClientSecret(TestConst::$CLIENT_SECRET)
+            ->setPartnerId(TestConst::$IMID_TEST)
+            ->setExternalID("extIDQris" . $timestamp)
+            ->setTimestamp($timestamp)
+            ->build();
+
+        $requestBody = InquiryStatus::builder()
+            ->setOriginalReferenceNo("IONPAYTEST07202302221348332909")
+            ->setOriginalPartnerReferenceNo("order1677048512514")
+            ->setMerchantId(TestConst::$IMID_TEST)
+            ->setBeneficiaryAccountNo("5345000060")
+            ->build();
+
+
+        $accessToken = self::getAccessToken($config);
+        try {
+
+            $payoutService = new SnapPayoutService($config);
+            $response = $payoutService->inquiryStatus($requestBody, $accessToken);
+
+            $this->assertEquals("2000000", $response->getResponseCode());
+            $this->assertEquals("Successful", $response->getResponseMessage());
+        } catch (Exception $e) {
+            $this->fail("Inquiry Status Qris Test Failed, exception thrown : " . $e->getMessage());
+        }
+    }
+
 
 
     
@@ -206,16 +241,17 @@ class NicepayInquiryStatusTest extends TestCase
     {
 
         $timeStamp = Helper::getFormattedTimestampV2();
-        $reffNo = "ordNo20241115224020";
+        $reffNo = "ordNo20241127231117";
         $amount = "10000";
+        $iMid = TestConst::$IMID_CARD;
 
         $config = $this->v2Config;
 
         $parameter = InquiryStatus::builder()
             ->setTimeStamp($timeStamp)
-            ->setTxId("IONPAYTEST01202411152240334849")
-            ->setIMid($this->iMidTest)
-            ->setMerchantToken($timeStamp, $this->iMidTest, $reffNo, $amount, $this->merchantKey)
+            ->setTxId("TESTMPGS0401202411272311177013")
+            ->setIMid($iMid)
+            ->setMerchantToken($timeStamp, $iMid, $reffNo, $amount, $this->merchantKey)
             ->setReferenceNo($reffNo)
             ->setAmt($amount)
             ->build();
@@ -239,11 +275,11 @@ class NicepayInquiryStatusTest extends TestCase
 
         $parameter = InquiryStatus::builder()
             ->setTimeStamp($timeStamp)
-            ->setTxId("IONPAYTEST00202212091011228108")
+            ->setTxId("IONPAYTEST03202411280004439678")
             ->setIMid($this->iMidTest)
-            ->setMerchantToken($timeStamp, $this->iMidTest, "ORDER20221012080918", "1", $this->merchantKey)
-            ->setReferenceNo("ORDER20221012080918")
-            ->setAmt("1")
+            ->setMerchantToken($timeStamp, $this->iMidTest, "ord20241127171178", "200", $this->merchantKey)
+            ->setReferenceNo("ord20241127171178")
+            ->setAmt("200")
             ->build();
 
         try {

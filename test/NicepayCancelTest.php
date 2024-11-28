@@ -70,7 +70,7 @@ class NicepayCancelTest extends TestCase
             ->setPartnerServiceId("")
             ->setCustomerNo("")
             ->setVirtualAccountNo($vacctNo)
-            ->setTotalAmount("10000.00", "IDR")
+            ->setTotalAmount($sampleVA->getAmt() . ".00", "IDR")
             ->setTrxId($reffNo)
             ->settxIdVA($txId)
             ->setCancelMessage("test Cancel Snap")
@@ -97,12 +97,12 @@ class NicepayCancelTest extends TestCase
         $requestBody = Cancel::builder()
             ->setMerchantId($config->getPartnerId())
             ->setSubMerchantId("23489182303312")
-            ->setOriginalPartnerReferenceNo("RefnoTrx20241025102223") // Update with new paid transaction before test
-            ->setOriginalReferenceNo("TNICEEW05105202410251022245965")  // Update with new paid transaction before test
-            ->setPartnerRefundNo("partnerRef05202410291359517089")
-            ->setRefundAmount("100.00", "IDR")
+            ->setOriginalPartnerReferenceNo(originalPartnerReferenceNo: "OrdNoTest-20230127160180") // Update with new paid transaction before test
+            ->setOriginalReferenceNo("TNICEEW05105202411201252267345")  // Update with new paid transaction before test
+            ->setPartnerRefundNo("partnerRefNo" . Helper::getFormattedTimestampV2())
+            ->setRefundAmount("2500.00", "IDR")
             ->setExternalStoreId("239840198240795109")
-            ->setReason("test refund")
+            ->setReason("test refund PHP Native")
             ->setRefundType("1")
             ->build();
 
@@ -133,8 +133,8 @@ class NicepayCancelTest extends TestCase
             ->build();
 
         $requestBody = Cancel::builder()
-            ->setOriginalReferenceNo("TNICEQR08100202411011308333291")
-            ->setOriginalPartnerReferenceNo("OrdNo-20241101130833")
+            ->setOriginalReferenceNo("TNICEQR08108202411141032065679")
+            ->setOriginalPartnerReferenceNo("OrdNo-20241114103205")
             ->setPartnerRefundNo("canQrisPhpNative" . $this->timestampv2)
             ->setMerchantId(TestConst::$IMID_QRIS)
             ->setExternalStoreId("NicepayStoreID1")
@@ -314,7 +314,6 @@ class NicepayCancelTest extends TestCase
         $timestamp = Helper::getFormattedTimestampV2();
         $newData = $this->registerNewCvxTrx();
         $txId = $newData->getTXid();
-        $reffNo = $newData->getReferenceNo();
         $iMid = TestConst::$IMID_CVS;
         $amount = $newData->getAmt();
 
@@ -388,6 +387,10 @@ class NicepayCancelTest extends TestCase
     private function registNewPayout($accessToken)
     {
 
+        $reservedTimeStamp = Helper::getCustomTimeStamp("YmdHis", "80");
+        $reservedDt = substr($reservedTimeStamp, 0, 8);
+        $reservedTm = substr($reservedTimeStamp, 8, 6);
+
         $config = NICEPay::builder()
             ->setIsProduction(false)
             ->setClientSecret(TestConst::$CLIENT_SECRET_NT)
@@ -398,22 +401,22 @@ class NicepayCancelTest extends TestCase
             ->build();
 
         $requestBody = Payout::builder()
-            ->merchantId(TestConst::$NORMALTEST)
-            ->beneficiaryAccountNo("1040004380536")
+            ->merchantId($config->getPartnerId())
+            ->beneficiaryAccountNo("888801000157508")
             ->beneficiaryName("Test PHP Native")
             ->beneficiaryPhone("08123456789")
             ->beneficiaryCustomerResidence("1")
             ->beneficiaryCustomerType("1")
             ->beneficiaryPostalCode("123456")
             ->payoutMethod('0')
-            ->beneficiaryBankCode('CENA')
+            ->beneficiaryBankCode('BRIN')
             ->amount("10000.00", "IDR")
             ->partnerReferenceNo("ordRefP" . Helper::getFormattedTimestampV2())
-            ->description("Test Regist Payour PHP Native")
+            ->description("Test Regist PayouT PHP Native")
             ->deliveryName("Ciki")
             ->deliveryId('1234567890234512')
-            ->reservedDt("20241104")
-            ->reservedTm('215334')
+            ->reservedDt($reservedDt)
+            ->reservedTm($reservedTm)
             ->build();
 
         $payoutService = new SnapPayoutService($config);

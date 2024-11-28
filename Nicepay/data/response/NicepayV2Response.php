@@ -31,6 +31,8 @@ class NicepayV2Response
     private $cancelReferenceNo;
     private $acquirerData;
 
+    private $authNo;
+
     // Convenience Store
 
     private $payNo;
@@ -92,6 +94,8 @@ class NicepayV2Response
         $this -> description = $builder -> getDescription();
         $this -> cancelReferenceNo = $builder -> getCancelReferenceNo();
         $this -> acquirerData = $builder -> getAcquirerData();
+
+        $this -> authNo = $builder -> getAuthNo();
 
         // Convenience Store
         $this -> payNo = $builder -> getPayNo();
@@ -397,6 +401,13 @@ class NicepayV2Response
         return $this->transDt;
     }
 
+    public function getAuthNo(){    
+        return $this -> authNo;}
+
+    public function setAuthNo($authNo){
+        $this -> authNo = $authNo;
+    }
+
     public function setTransDt($transDt): void
     {
         $this->transDt = $transDt;
@@ -545,7 +556,8 @@ class NicepayV2Response
             ->setPaymentTrxSn($data['paymentTrxSn'] ?? null)
             ->setCancelTrxSn($data['cancelTrxSn'] ?? null)
             ->setUserId($data['userId'] ?? null)
-            ->setShopId($data['shopId'] ?? null);
+            ->setShopId($data['shopId'] ?? null)
+            ->setAuthNo($data['authNo'] ?? null);
             
         // Return the constructed NicepayV2Response using the builder
         return new self($builder);
@@ -575,6 +587,8 @@ class NicepayV2ResponseBuilder
     private $description;
     private $cancelReferenceNo;
     private $acquirerData;
+    private $authNo;
+
 
     // Convenience Store
 
@@ -1137,6 +1151,16 @@ class NicepayV2ResponseBuilder
         $this -> description = $description;
         return $this;
     }
+
+    public function getAuthNo(){
+        return $this -> authNo;
+    }
+
+    public function setAuthNo($authNo){
+        $this -> authNo = $authNo;
+        return $this;
+    }
+
     public function build(): NicepayV2Response
     {
         return new NicepayV2Response($this);

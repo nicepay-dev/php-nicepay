@@ -36,6 +36,7 @@ class NicepayResponse
     private $referenceNo;
     private $webRedirectUrl;
 
+    private $refundNo;
     // Inquiry Ewallet 
 
     private $originalPartnerReferenceNo;
@@ -48,6 +49,8 @@ class NicepayResponse
     private $qrContent;
     private $qrUrl;
     private $refundTime;
+
+    private $paidTime;
 
     // QRIS refund
     private $partnerRefundNo;
@@ -103,6 +106,7 @@ class NicepayResponse
         $this->partnerReferenceNo = $builder->getPartnerReferenceNo();
         $this->referenceNo = $builder->getReferenceNo();
         $this->webRedirectUrl = $builder->getWebRedirectUrl();
+        $this->refundNo = $builder->getRefundNo();
 
         // Inquiry Ewallet
         $this->originalPartnerReferenceNo = $builder->getOriginalPartnerReferenceNo();
@@ -116,6 +120,7 @@ class NicepayResponse
         $this->partnerRefundNo = $builder->getPartnerRefundNo();
         $this->refundAmount = $builder->getRefundAmount();
         $this->qrUrl = $builder->getQrUrl();
+        $this->paidTime = $builder->getPaidTime();
 
         // Payout
         $this->beneficiaryaccountNo = $builder->getBeneficiaryaccountNo();
@@ -181,13 +186,20 @@ class NicepayResponse
             ->setBeneficiaryCustomerResidence($data['beneficiaryCustomerResidence'] ?? null)
             ->setBeneficiaryCustomerType($data['beneficiaryCustomerType'] ?? null)
             ->setQrUrl($data['qrUrl'] ?? null)
-            ->setRefundTime($data['refundTime'] ?? null);
+            ->setRefundTime($data['refundTime'] ?? null)
+            ->setRefundNo($data['refundNo'] ?? null)
+            ->setPaidTime($data['paidTime'] ?? null);
 
         return new self($builder);
     }
 
     // Getters
 
+
+    public function getRefundNo()
+    {
+        return $this->refundNo;
+    }
     public function getResponseCode()
     {
         return $this->responseCode;
@@ -402,6 +414,10 @@ class NicepayResponse
     {
         return $this->beneficiaryCustomerType;
     }
+
+    public function getPaidTime(){
+        return $this->paidTime;
+    }
     // Builder Class
     public static function builder(): NicepayResponseBuilder
     {
@@ -439,6 +455,7 @@ class NicepayResponseBuilder
     private $partnerReferenceNo;
     private $referenceNo;
     private $webRedirectUrl;
+    private $refundNo;
 
     // Inquiry Status Ewallet
     private $originalPartnerReferenceNo;
@@ -452,6 +469,7 @@ class NicepayResponseBuilder
     private $partnerRefundNo;
     private $refundAmount;
     private $refundTime;
+    private $paidTime;
 
     // PAYOUT
 
@@ -474,6 +492,12 @@ class NicepayResponseBuilder
 
 
     // Setters
+
+    public function setRefundNo($refundNo): NicepayResponseBuilder
+    {
+        $this->refundNo = $refundNo;
+        return $this;
+    }
 
     public function setResponseCode($responseCode): NicepayResponseBuilder
     {
@@ -735,7 +759,20 @@ class NicepayResponseBuilder
         return $this;
     }
 
+    public function setPaidTime($paidTime): NicepayResponseBuilder {
+        $this->paidTime = $paidTime;
+        return $this;
+    }
+
     // Getters 
+
+    public function getRefundNo(){
+        return $this->refundNo;
+    }
+
+    public function getPaidTime(){
+        return $this->paidTime;
+    }
 
     public function getQrUrl()
     {
