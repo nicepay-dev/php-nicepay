@@ -330,6 +330,32 @@ Integration test are available
 - [Inquiry Status Sample Functional Test](test/NicepayInquiryStatusTest.php)
 - [Cancel / Refund Sample Functional Test](test/NicepayCancelTest.php)
 
+## Running in Local Development
+
+To run the library in a local environment, follow these steps:
+
+1. Create a `.env` file in your project root:
+   ```env
+   APP_ENV=local
+
+2. Load the .env file at the start of your project (e.g., in index.php):
+```php     
+use Nicepay\utils\EnvLoader;
+
+EnvLoader::load(__DIR__ . '/.env');
+```
+
+3. Verify the environment variable is set:
+```php
+if (getenv('APP_ENV') === 'local') {
+    echo "Running in local environment";
+}
+
+```
+
+**By default, if no .env file is loaded, the library will assume it is running in a production environment.**
+
+
 ## Get help
 
 - [Nicepay Docs](https://docs.nicepay.co.id/)

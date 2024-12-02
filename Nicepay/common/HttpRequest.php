@@ -38,7 +38,10 @@ class HttpRequest
 
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            
+            if (getenv('APP_ENV') === 'local') {
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            }
             curl_setopt($ch, CURLOPT_TIMEOUT, 15); // Set timeout to 15 seconds
 
             // Execute request
@@ -132,7 +135,9 @@ class HttpRequest
 
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            if (getenv('APP_ENV') === 'local') {
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            }
             curl_setopt($ch, CURLOPT_TIMEOUT, 15); // Set timeout to 15 seconds
             // Execute request
             $response = curl_exec($ch);
