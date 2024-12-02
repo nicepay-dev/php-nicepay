@@ -69,6 +69,12 @@ Add the repository details on your project composer.json
 
 Run **composer install** if it’s your first time or **composer update nicepay/nicepay-php** to update that specific package.
 
+### 1.2 Install with Composer  
+If you are using [Composer](https://getcomposer.org), install the library via the Composer CLI:
+```bash
+composer require nicepay/php-nicepay
+```
+This will download and install the package, along with its dependencies, into your project. Make sure Composer is properly set up before running this command.
 
 ## 2. Usage
 
