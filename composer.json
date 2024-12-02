@@ -4,7 +4,7 @@
             "php": "8.3.11" 
         }
     },
-    "name": "nicepay/nicepay-php",
+    "name": "nicepay/php-nicepay",
     "description": "PHP Library for Nicepay Payment API.",
     "type": "library",
     "license": "MIT",
