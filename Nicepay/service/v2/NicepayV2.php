@@ -4,6 +4,7 @@ namespace Nicepay\service\v2;
 
 use Nicepay\common\{NICEPay, HttpRequest};
 use Nicepay\data\response\NicepayV2Response;
+use Nicepay\data\response\NicepayV2RedirectResponse;
 use Nicepay\utils\Helper;
 
 
@@ -66,6 +67,24 @@ class NicepayV2 {
         $response = $this->httpClient->requestWithUrlEncodedBody($headers, $url, $encodedBody, $method, $config->isRetryFlag(), $config->getRetryCount());
 
         return $response;
+    }
+
+    public function requestV2RedirectTransaction($parameter, $endPoint, $method) :NicepayV2RedirectResponse {
+        
+        $config = $this->apiConfig;
+
+        // generate merchantToken 
+        $parameter -> setMerchantToken(Helper::generateMerchantToken($parameter->getMerchantToken()));
+
+        $jsonData = json_encode($parameter->toArrayV2());
+
+        $url = $this->apiConfig->getNicepayBaseUrl() . $endPoint;
+        $headers = self::getHeaders();
+
+        
+        $response = $this->httpClient->request($headers, $url, $jsonData, $method, $config->isRetryFlag(), $config->getRetryCount());
+
+        return NicepayV2RedirectResponse::fromArray($response);
     }
 
 
