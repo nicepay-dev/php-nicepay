@@ -78,8 +78,12 @@ class NICEPay
     {
         if ($this->isProduction) {
             return NicepayCons::getProductionBaseUrl();
+            //for AWS
+            // return NicepayCons::getProductionCloud();
         } else {
             return  NicepayCons::getSandboxBaseUrl();
+            //For AWS
+            // return NicepayCons::getSandboxCloud();
         }
     }
 
