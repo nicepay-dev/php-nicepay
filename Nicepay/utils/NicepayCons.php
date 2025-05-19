@@ -8,6 +8,9 @@ class NicepayCons{
     private const PRODUCTION_BASE_URL = "https://www.nicepay.co.id/nicepay/";
     private const CREATE_VA_SNAP_ENDPOINT = 'api/v1.0/transfer-va/create-va';
 
+    private const CLOUD_SANDBOX_BASE_URL = "https://dev-services.nicepay.co.id/nicepay/";
+    private const CLOUD_PRODUCTION_BASE_URL = "https://services.nicepay.co.id/nicepay/";
+
     private const V2_REGISTRATION_ENDPOINT = "direct/v2/registration";
 
     private const V2_REDIRECT_REGISTRATION_ENDPOINT = "redirect/v2/registration";
@@ -45,6 +48,13 @@ class NicepayCons{
     }
     public static function getProductionBaseUrl() : string{
         return self::PRODUCTION_BASE_URL;
+    }
+
+    public static function getSandboxCloud() : string{
+        return self::CLOUD_SANDBOX_BASE_URL;
+    }
+    public static function getProductionCloud() : string{
+        return self::CLOUD_PRODUCTION_BASE_URL;
     }
 
     public static function getCreateVASnapEndpoint() : string{
