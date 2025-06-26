@@ -225,22 +225,22 @@ class Card
     {
         return $this->cardExpYymm;
     }
-    
+
     public function getCardCvv()
     {
         return $this->cardCvv;
     }
-    
+
     public function getCardHolderNm()
     {
         return $this->cardHolderNm;
     }
-    
+
     public function getRecurringToken()
     {
         return $this->recurringToken;
     }
-    
+
     public function getPreauthToken()
     {
         return $this->preauthToken;
@@ -289,7 +289,8 @@ class Card
         ];
     }
 
-    public function toArrayPayment(){
+    public function toArrayPayment()
+    {
         return [
             'timeStamp' => $this->timeStamp,
             'referenceNo' => $this->referenceNo,
@@ -490,7 +491,7 @@ class CardBuilder
         return $this->cardNo;
     }
 
-    public function getCardExpYymm()    
+    public function getCardExpYymm()
     {
         return $this->cardExpYymm;
     }
@@ -503,7 +504,6 @@ class CardBuilder
     public function getCardHolderNm()
     {
         return $this->cardHolderNm;
-
     }
 
     public function getRecurringToken()
@@ -666,7 +666,7 @@ class CardBuilder
     public function cardNo($cardNo)
     {
         $this->cardNo = $cardNo;
-        return $this;   
+        return $this;
     }
     public function cardExpYymm($cardExpYymm)
     {
@@ -698,5 +698,4 @@ class CardBuilder
         $this->callBackUrl = $callBackUrl;
         return $this;
     }
-
 }

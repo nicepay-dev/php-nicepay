@@ -415,7 +415,8 @@ class NicepayResponse
         return $this->beneficiaryCustomerType;
     }
 
-    public function getPaidTime(){
+    public function getPaidTime()
+    {
         return $this->paidTime;
     }
     // Builder Class
@@ -675,14 +676,15 @@ class NicepayResponseBuilder
         return $this;
     }
 
-    public function setQrUrl($qrUrl) :NicepayResponseBuilder{
-        $this -> qrUrl = $qrUrl;
+    public function setQrUrl($qrUrl): NicepayResponseBuilder
+    {
+        $this->qrUrl = $qrUrl;
         return $this;
     }
 
-    public function setRefundTime($refundTime):NicepayResponseBuilder 
+    public function setRefundTime($refundTime): NicepayResponseBuilder
     {
-        $this -> refundTime = $refundTime;
+        $this->refundTime = $refundTime;
         return $this;
     }
 
@@ -759,18 +761,21 @@ class NicepayResponseBuilder
         return $this;
     }
 
-    public function setPaidTime($paidTime): NicepayResponseBuilder {
+    public function setPaidTime($paidTime): NicepayResponseBuilder
+    {
         $this->paidTime = $paidTime;
         return $this;
     }
 
     // Getters 
 
-    public function getRefundNo(){
+    public function getRefundNo()
+    {
         return $this->refundNo;
     }
 
-    public function getPaidTime(){
+    public function getPaidTime()
+    {
         return $this->paidTime;
     }
 
@@ -779,8 +784,9 @@ class NicepayResponseBuilder
         return $this->qrUrl;
     }
 
-    public function getRefundTime(){
-        return $this -> refundTime;
+    public function getRefundTime()
+    {
+        return $this->refundTime;
     }
     public function getResponseCode()
     {

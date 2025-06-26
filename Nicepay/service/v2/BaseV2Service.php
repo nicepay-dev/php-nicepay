@@ -9,7 +9,8 @@ use Nicepay\service\v2\NicepayV2;
 use Nicepay\data\response\NicepayV2Response;
 use Nicepay\utils\NicepayCons;
 
-class BaseV2Service {
+class BaseV2Service
+{
 
     protected NicepayV2 $v2Service;
 
@@ -49,6 +50,6 @@ class BaseV2Service {
      */
     public function cancel(Cancel $requestBody): NicepayV2Response
     {
-        return $this -> v2Service->requestV2Transaction($requestBody, NicepayCons::getV2CancelEndpoint(), "POST");
+        return $this->v2Service->requestV2Transaction($requestBody, NicepayCons::getV2CancelEndpoint(), "POST");
     }
 }

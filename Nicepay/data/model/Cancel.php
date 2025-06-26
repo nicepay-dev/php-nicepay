@@ -121,18 +121,29 @@ class Cancel
         ];
     }
 
-    public function toArrayV2(): array
+
+    public function toArrayV2()
     {
-        return [
-            'timeStamp' => $this->timeStamp,
-            'tXid' => $this->tXid,
-            'referenceNo' => $this->referenceNo,
-            'merchantToken' => $this->merchantToken,
-            'payMethod' => $this->payMethod,
-            'cancelType' => $this->cancelType,
-            'amt' => $this->amt,
-            'iMid' => $this->iMid,
+        $arrV2 = [];
+
+        $fields = [
+            'timeStamp',
+            'tXid',
+            'referenceNo',
+            'merchantToken',
+            'payMethod',
+            'cancelType',
+            'amt',
+            'iMid',
         ];
+
+        foreach ($fields as $field) {
+            if (property_exists($this, $field) && $this->{$field} !== null) {
+                $arrV2[$field] = $this->{$field};
+            }
+        }
+
+        return $arrV2;
     }
 
     // Builder
@@ -602,6 +613,12 @@ class CancelBuilder
     public function setMerchantToken($timeStamp, $iMid, $tXid, $amount, $merchantKey): CancelBuilder
     {
         $this->merchantToken = $timeStamp . $iMid . $tXid . $amount . $merchantKey;
+        return $this;
+    }
+
+    public function setMerchantTokenPayout($timeStamp, $iMid, $tXid, $merchantKey): CancelBuilder
+    {
+        $this->merchantToken = $timeStamp . $iMid . $tXid  . $merchantKey;
         return $this;
     }
 

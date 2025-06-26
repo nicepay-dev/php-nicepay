@@ -50,6 +50,24 @@ class Redirect
     private $userAgent;
     private $userLanguage;
 
+    private $vat;
+    private $fee;
+    private $notaxAmt;
+    private $reqDt;
+    private $reqTm;
+    private $reqClientVer;
+    private $sellers;
+    private $mitraCd;
+    private $instmntType;
+    private $instmntMon;
+    private $recurrOpt;
+    private $payValidDt;
+    private $paymentExpTm;
+    private $paymentExpDt;
+    private $payValidTm;
+    private $shopId;
+
+
     function __construct(redirectBuilder $builder)
     {
         // V2
@@ -92,9 +110,110 @@ class Redirect
         $this->userSessionID = $builder->getUserSessionID();
         $this->userAgent = $builder->getUserAgent();
         $this->userLanguage = $builder->getUserLanguage();
+
+        $this->vat = $builder->getVat();
+        $this->fee = $builder->getFee();
+        $this->notaxAmt = $builder->getNotaxAmt();
+        $this->reqDt = $builder->getReqDt();
+        $this->reqTm = $builder->getReqTm();
+        $this->reqClientVer = $builder->getReqClientVer();
+        $this->sellers = $builder->getSellers();
+        $this->mitraCd = $builder->getMitraCd();
+        $this->instmntType = $builder->getInstmntType();
+        $this->instmntMon = $builder->getInstmntMon();
+        $this->recurrOpt = $builder->getRecurrOpt();
+        $this->payValidDt = $builder->getPayValidDt();
+        $this->paymentExpTm = $builder->getPaymentExpTm();
+        $this->paymentExpDt = $builder->getPaymentExpDt();
+        $this->payValidTm = $builder->getPayValidTm();
+        $this->shopId = $builder->getShopId();
     }
 
     // Getter setter V2
+
+
+
+    public function getShopId()
+    {
+        return $this->shopId;
+    }
+
+    public function getVat()
+    {
+        return $this->vat;
+    }
+
+    public function getFee()
+    {
+        return $this->fee;
+    }
+
+    public function getNotaxAmt()
+    {
+        return $this->notaxAmt;
+    }
+
+    public function getReqDt()
+    {
+        return $this->reqDt;
+    }
+
+    public function getReqTm()
+    {
+        return $this->reqTm;
+    }
+
+    public function getReqClientVer()
+    {
+        return $this->reqClientVer;
+    }
+
+    public function getSellers()
+    {
+        return $this->sellers;
+    }
+
+    public function getMitraCd()
+    {
+        return $this->mitraCd;
+    }
+
+    public function getInstmntType()
+    {
+        return $this->instmntType;
+    }
+
+    public function getInstmntMon()
+    {
+        return $this->instmntMon;
+    }
+
+    public function getRecurrOpt()
+    {
+        return $this->recurrOpt;
+    }
+
+    public function getPayValidDt()
+    {
+        return $this->payValidDt;
+    }
+
+    public function getPaymentExpTm()
+    {
+        return $this->paymentExpTm;
+    }
+
+    public function getPaymentExpDt()
+    {
+        return $this->paymentExpDt;
+    }
+
+    public function getPayValidTm()
+    {
+        return $this->payValidTm;
+    }
+
+
 
     public function getTimeStamp()
     {
@@ -308,7 +427,7 @@ class Redirect
     }
 
     //
-    
+
     public function getMerchantToken()
     {
         return $this->merchantToken;
@@ -515,6 +634,22 @@ class Redirect
             'userSessionID' => $this->userSessionID,
             'userAgent' => $this->userAgent,
             'userLanguage' => $this->userLanguage,
+            'vat' => $this->vat,
+            'fee' => $this->fee,
+            'notaxAmt' => $this->notaxAmt,
+            'reqDt' => $this->reqDt,
+            'reqTm' => $this->reqTm,
+            'reqClientVer' => $this->reqClientVer,
+            'sellers' => $this->sellers,
+            'mitraCd' => $this->mitraCd,
+            'instmntType' => $this->instmntType,
+            'instmntMon' => $this->instmntMon,
+            'recurrOpt' => $this->recurrOpt,
+            'payValidDt' => $this->payValidDt,
+            'paymentExpTm' => $this->paymentExpTm,
+            'paymentExpDt' => $this->paymentExpDt,
+            'payValidTm' => $this->payValidTm,
+            'shopId' => $this->shopId
         ];
     }
 }
@@ -565,7 +700,26 @@ class RedirectBuilder
     private $userAgent;
     private $userLanguage;
 
+    private $vat;
+    private $fee;
+    private $notaxAmt;
+    private $reqDt;
+    private $reqTm;
+    private $reqClientVer;
+    private $sellers;
+    private $mitraCd;
+    private $instmntType;
+    private $instmntMon;
+    private $recurrOpt;
+    private $payValidDt;
+    private $paymentExpTm;
+    private $paymentExpDt;
+    private $payValidTm;
+    private $shopId;
+
     // GETTER SETTER V2
+
+
 
     public function getTimeStamp()
     {
@@ -799,7 +953,7 @@ class RedirectBuilder
         return $this;
     }
 
-    
+
 
     public function getMerchantToken()
     {
@@ -980,6 +1134,181 @@ class RedirectBuilder
     public function setUserLanguage($userLanguage): RedirectBuilder
     {
         $this->userLanguage = $userLanguage;
+        return $this;
+    }
+
+    public function getShopId()
+    {
+        return $this->shopId;
+    }
+
+    public function setShopId($shopId)
+    {
+        $this->shopId = $shopId;
+        return $this;
+    }
+
+    public function getVat()
+    {
+        return $this->vat;
+    }
+
+    public function setVat($vat)
+    {
+        $this->vat = $vat;
+        return $this;
+    }
+
+    public function getFee()
+    {
+        return $this->fee;
+    }
+
+    public function setFee($fee)
+    {
+        $this->fee = $fee;
+        return $this;
+    }
+
+    public function getNotaxAmt()
+    {
+        return $this->notaxAmt;
+    }
+
+    public function setNotaxAmt($notaxAmt)
+    {
+        $this->notaxAmt = $notaxAmt;
+        return $this;
+    }
+    public function getReqDt()
+    {
+        return $this->reqDt;
+    }
+
+    public function setReqDt($reqDt)
+    {
+        $this->reqDt = $reqDt;
+        return $this;
+    }
+
+    public function getReqTm()
+    {
+        return $this->reqTm;
+    }
+
+    public function setReqTm($reqTm)
+    {
+        $this->reqTm = $reqTm;
+        return $this;
+    }
+
+    public function getReqClientVer()
+    {
+        return $this->reqClientVer;
+    }
+
+    public function setReqClientVer($reqClientVer)
+    {
+        $this->reqClientVer = $reqClientVer;
+        return $this;
+    }
+
+    public function getSellers()
+    {
+        return $this->sellers;
+    }
+
+    public function setSellers($sellers)
+    {
+        $this->sellers = $sellers;
+        return $this;
+    }
+
+    public function getMitraCd()
+    {
+        return $this->mitraCd;
+    }
+
+    public function setMitraCd($mitraCd)
+    {
+        $this->mitraCd = $mitraCd;
+        return $this;
+    }
+
+    public function getInstmntType()
+    {
+        return $this->instmntType;
+    }
+
+    public function setInstmntType($instmntType)
+    {
+        $this->instmntType = $instmntType;
+        return $this;
+    }
+
+    public function getInstmntMon()
+    {
+        return $this->instmntMon;
+    }
+
+    public function setInstmntMon($instmntMon)
+    {
+        $this->instmntMon = $instmntMon;
+        return $this;
+    }
+
+    public function getRecurrOpt()
+    {
+        return $this->recurrOpt;
+    }
+
+    public function setRecurrOpt($recurrOpt)
+    {
+        $this->recurrOpt = $recurrOpt;
+        return $this;
+    }
+
+    public function getPayValidDt()
+    {
+        return $this->payValidDt;
+    }
+
+    public function setPayValidDt($payValidDt)
+    {
+        $this->payValidDt = $payValidDt;
+        return $this;
+    }
+
+    public function getPaymentExpTm()
+    {
+        return $this->paymentExpTm;
+    }
+
+    public function setPaymentExpTm($paymentExpTm)
+    {
+        $this->paymentExpTm = $paymentExpTm;
+        return $this;
+    }
+
+    public function getPaymentExpDt()
+    {
+        return $this->paymentExpDt;
+    }
+
+    public function setPaymentExpDt($paymentExpDt)
+    {
+        $this->paymentExpDt = $paymentExpDt;
+        return $this;
+    }
+
+    public function getPayValidTm()
+    {
+        return $this->payValidTm;
+    }
+
+    public function setPayValidTm($payValidTm)
+    {
+        $this->payValidTm = $payValidTm;
         return $this;
     }
 }
