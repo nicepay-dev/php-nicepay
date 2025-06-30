@@ -33,15 +33,23 @@ This library currently supports the following payment methods:
     - Reject
 
 ### V2 Version:
-- **Virtual Account, Convenience Store**:
+- **Virtual Account, Convenience Store, Payloan, Qris**:
     - Registration
     - Inquiry Status
     - Cancel
-- **Debit/Credit Card**
+- **Debit/Credit Card, E-Wallet**
     - Registration
     - Inquiry Status
     - Cancel
     - Payment
+- **Payout**
+    - Registration
+    - Approve
+    - Inquiry Status
+    - Check Balance
+    - Cancel
+    - Reject
+
 
 ### Additional Function
 - **Helper**
