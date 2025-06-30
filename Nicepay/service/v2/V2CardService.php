@@ -7,7 +7,8 @@ use Nicepay\data\model\Card;
 use Nicepay\utils\NicepayCons;
 
 
-class V2CardService extends BaseV2Service {
+class V2CardService extends BaseV2Service
+{
 
     /**
      * Do payment with Card payment method
@@ -18,5 +19,4 @@ class V2CardService extends BaseV2Service {
     {
         return $this->v2Service->requestV2TransactionUrlencodedBody($requestBody, NicepayCons::getV2PaymentEndpoint(), "POST");
     }
-
 }

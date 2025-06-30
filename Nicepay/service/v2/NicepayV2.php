@@ -8,12 +8,14 @@ use Nicepay\data\response\NicepayV2RedirectResponse;
 use Nicepay\utils\Helper;
 
 
-class NicepayV2 {
+class NicepayV2
+{
 
     private NICEPay $apiConfig;
     private $httpClient;
 
-    public function __construct(NICEPay $config) {
+    public function __construct(NICEPay $config)
+    {
         $this->apiConfig = $config;
         $this->httpClient = new HttpRequest();
     }
@@ -27,21 +29,21 @@ class NicepayV2 {
      *
      * @return NicepayV2Response the response from the API
      */
-    public function requestV2Transaction($parameter, $endPoint, $method) :NicepayV2Response {
-        
+    public function requestV2Transaction($parameter, $endPoint, $method): NicepayV2Response
+    {
+
         $config = $this->apiConfig;
 
         // generate merchantToken 
-        $parameter -> setMerchantToken(Helper::generateMerchantToken($parameter->getMerchantToken()));
+        $parameter->setMerchantToken(Helper::generateMerchantToken($parameter->getMerchantToken()));
 
         $jsonData = json_encode($parameter->toArrayV2());
 
         $url = $this->apiConfig->getNicepayBaseUrl() . $endPoint;
         $headers = self::getHeaders();
 
-        
-        $response = $this->httpClient->request($headers, $url, $jsonData, $method, $config->isRetryFlag(), $config->getRetryCount());
 
+        $response = $this->httpClient->request($headers, $url, $jsonData, $method, $config->isRetryFlag(), $config->getRetryCount());
         return NicepayV2Response::fromArray($response);
     }
 
@@ -54,12 +56,13 @@ class NicepayV2 {
      *
      * @return mixed the response from the API
      */
-    public function requestV2TransactionUrlencodedBody($parameter, $endPoint, $method) {
-        
+    public function requestV2TransactionUrlencodedBody($parameter, $endPoint, $method)
+    {
+
         $config = $this->apiConfig;
 
         // generate merchantToken 
-        $parameter -> setMerchantToken(Helper::generateMerchantToken($parameter->getMerchantToken()));
+        $parameter->setMerchantToken(Helper::generateMerchantToken($parameter->getMerchantToken()));
         $url = $this->apiConfig->getNicepayBaseUrl() . $endPoint;
         $headers[] = 'Content-Type: application/x-www-form-urlencoded';
         $encodedBody = http_build_query($parameter->toArrayPayment());
@@ -69,33 +72,35 @@ class NicepayV2 {
         return $response;
     }
 
-    public function requestV2RedirectTransaction($parameter, $endPoint, $method) :NicepayV2RedirectResponse {
-        
+    public function requestV2RedirectTransaction($parameter, $endPoint, $method): NicepayV2RedirectResponse
+    {
+
         $config = $this->apiConfig;
 
         // generate merchantToken 
-        $parameter -> setMerchantToken(Helper::generateMerchantToken($parameter->getMerchantToken()));
+        $parameter->setMerchantToken(Helper::generateMerchantToken($parameter->getMerchantToken()));
 
         $jsonData = json_encode($parameter->toArrayV2());
 
         $url = $this->apiConfig->getNicepayBaseUrl() . $endPoint;
         $headers = self::getHeaders();
 
-        
+
         $response = $this->httpClient->request($headers, $url, $jsonData, $method, $config->isRetryFlag(), $config->getRetryCount());
 
         return NicepayV2RedirectResponse::fromArray($response);
     }
 
 
-    private function getHeaders():array {
+    private function getHeaders(): array
+    {
 
         return [
             'Content-Type: application/json',
         ];
     }
 
-    
+
 
     // timeStamp + iMid + refNo + amount + merchantKey
 }

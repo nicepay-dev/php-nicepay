@@ -10,7 +10,8 @@ use Nicepay\data\response\NicepayV2Response;
 use Nicepay\data\response\NicepayV2RedirectResponse;
 use Nicepay\utils\NicepayCons;
 
-class BaseV2RedirectService {
+class BaseV2RedirectService
+{
 
     protected NicepayV2 $v2Service;
 
@@ -50,6 +51,6 @@ class BaseV2RedirectService {
      */
     public function cancel(Cancel $requestBody): NicepayV2Response
     {
-        return $this -> v2Service->requestV2Transaction($requestBody, NicepayCons::getV2CancelEndpoint(), "POST");
+        return $this->v2Service->requestV2Transaction($requestBody, NicepayCons::getV2CancelEndpoint(), "POST");
     }
 }

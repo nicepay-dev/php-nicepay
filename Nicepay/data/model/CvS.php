@@ -1,6 +1,7 @@
 <?php
 
 namespace Nicepay\data\model;
+
 class CvS
 {
 
@@ -44,7 +45,8 @@ class CvS
 
     // Constructor 
 
-    public function __construct(CvSBuilder $builder) {
+    public function __construct(CvSBuilder $builder)
+    {
         $this->timeStamp = $builder->getTimeStamp();
         $this->iMid = $builder->getIMid();
         $this->payMethod = $builder->getPayMethod();
@@ -72,7 +74,7 @@ class CvS
         $this->deliveryCity = $builder->getDeliveryCity();
         $this->deliveryState = $builder->getDeliveryState();
         $this->deliveryPostCd = $builder->getDeliveryPostCd();
-        $this->deliveryCountry = $builder->getDeliveryCountry();        
+        $this->deliveryCountry = $builder->getDeliveryCountry();
         $this->reqDt = $builder->getReqDt();
         $this->reqTm = $builder->getReqTm();
         $this->reqDomain = $builder->getReqDomain();
@@ -273,8 +275,9 @@ class CvS
     }
     // setter
 
-    public function setMerchantToken($merchantToken){
-        $this -> merchantToken = $merchantToken;
+    public function setMerchantToken($merchantToken)
+    {
+        $this->merchantToken = $merchantToken;
     }
 
     public function toArrayV2(): array
@@ -300,25 +303,24 @@ class CvS
             'cartData' => $this->cartData,
             'description' => $this->description,
             'userIP' => $this->userIP,
-            'deliveryNm' => $this -> deliveryNm,
-            'deliveryPhone' => $this -> deliveryPhone,
-            'deliveryAddr' => $this -> deliveryAddr,
-            'deliveryCity' => $this -> deliveryCity,
-            'deliveryState' => $this -> deliveryState,
-            'deliveryPostCd' => $this -> deliveryPostCd,
-            'deliveryCountry' => $this -> deliveryCountry,
-            'reqDt' => $this -> reqDt,
-            'reqTm' => $this -> reqTm,
-            'reqDomain' => $this -> reqDomain,
-            'reqServerIP' => $this -> reqServerIP,
-            'reqClientVer' => $this -> reqClientVer,
-            'userSessionID' => $this -> userSessionID,
-            'mitraCd' => $this -> mitraCd,
-            'payValidDt' => $this -> payValidDt,
-            'payValidTm' => $this -> payValidTm
+            'deliveryNm' => $this->deliveryNm,
+            'deliveryPhone' => $this->deliveryPhone,
+            'deliveryAddr' => $this->deliveryAddr,
+            'deliveryCity' => $this->deliveryCity,
+            'deliveryState' => $this->deliveryState,
+            'deliveryPostCd' => $this->deliveryPostCd,
+            'deliveryCountry' => $this->deliveryCountry,
+            'reqDt' => $this->reqDt,
+            'reqTm' => $this->reqTm,
+            'reqDomain' => $this->reqDomain,
+            'reqServerIP' => $this->reqServerIP,
+            'reqClientVer' => $this->reqClientVer,
+            'userSessionID' => $this->userSessionID,
+            'mitraCd' => $this->mitraCd,
+            'payValidDt' => $this->payValidDt,
+            'payValidTm' => $this->payValidTm
         ];
     }
-
 }
 
 
@@ -722,18 +724,21 @@ class CvSBuilder
         return $this;
     }
 
-    public function mitraCd($mitraCd) {
-        $this -> mitraCd = $mitraCd;
+    public function mitraCd($mitraCd)
+    {
+        $this->mitraCd = $mitraCd;
         return $this;
     }
 
-    public function payValidDt($payValidDt) {
-        $this -> payValidDt = $payValidDt;
+    public function payValidDt($payValidDt)
+    {
+        $this->payValidDt = $payValidDt;
         return $this;
     }
 
-    public function payValidTm($payValidTm) {
-        $this -> payValidTm = $payValidTm;
+    public function payValidTm($payValidTm)
+    {
+        $this->payValidTm = $payValidTm;
         return $this;
     }
 }
